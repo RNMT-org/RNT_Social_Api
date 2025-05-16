@@ -1,0 +1,19 @@
+[ {
+  "name" : "eventdefinition:root",
+  "showName" : "EventDefinition Root"
+}, {
+  "name" : "eventdefinition:create",
+  "showName" : "EventDefinition Create"
+}, {
+  "name" : "eventdefinition:update",
+  "showName" : "EventDefinition Update"
+}, {
+  "name" : "eventdefinition:read",
+  "showName" : "EventDefinition Read"
+}, {
+  "name" : "eventdefinition:search",
+  "showName" : "EventDefinition Search"
+}, {
+  "name" : "eventdefinition:delete",
+  "showName" : "EventDefinition Delete"
+} ]

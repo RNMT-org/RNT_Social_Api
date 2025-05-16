@@ -1,0 +1,17 @@
+<entity>
+    <name>PropertyItemTax</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>ratio</name>
+            <type>DOUBLE</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyItemCategory</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

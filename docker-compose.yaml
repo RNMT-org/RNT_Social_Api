@@ -1,0 +1,35 @@
+version: latest
+
+services:
+  postgres:
+    container_name: rnt_social-postgres
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: rnt_social
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  api:
+    container_name: rnt_social-api
+    depends_on:
+      - postgres
+    build: ./
+    ports:
+      - 8080:8080
+    environment:
+      - JWT_TOKEN=ac7b9c76236ae1e80f181586a980d292a1a6eb14e3beeaa97d01523ef2a571b1
+      - DB_HOST=rnt_social-db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=12345678
+      - DB_SCHEMA=rnt_social
+    volumes:
+      - maven-repo:/root/.m2
+
+volumes:
+  postgres:
+    driver: local
+  maven-repo:
+    driver: local

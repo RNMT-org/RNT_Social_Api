@@ -1,0 +1,4 @@
+[ {
+  "name" : "TAG_ADMIN",
+  "permissions" : [ "tag:root", "tag:create", "tag:read", "tag:search", "tag:update", "tag:delete" ]
+} ]

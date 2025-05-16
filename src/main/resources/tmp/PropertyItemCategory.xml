@@ -1,0 +1,17 @@
+<entity>
+    <name>PropertyItemCategory</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Property</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

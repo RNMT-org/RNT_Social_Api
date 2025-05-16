@@ -1,0 +1,36 @@
+<entity>
+    <name>PropertyTransaction</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>amount</name>
+            <type>DOUBLE</type>
+        </field>
+        <field>
+            <name>isFake</name>
+            <type>BOOLEAN</type>
+        </field>
+        <field>
+            <name>type</name>
+            <type>ENUM</type>
+            <enums>
+                <enum>
+                    <name>buy</name>
+                    <value>buy</value>
+                </enum>
+                <enum>
+                    <name>sell</name>
+                    <value>sell</value>
+                </enum>
+            </enums>
+            <required>true</required>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyObject</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

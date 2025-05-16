@@ -1,0 +1,21 @@
+<entity>
+    <name>PropertyPoolActiveObject</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>extra</name>
+            <type>STRING</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyObject</relatedEntityName>
+            <required>true</required>
+        </relationship>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyPoolSession</relatedEntityName>
+        </relationship>
+    </relationships>
+</entity>

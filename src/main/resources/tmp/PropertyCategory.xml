@@ -1,0 +1,10 @@
+<entity>
+    <name>PropertyCategory</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+        </field>
+    </fields>
+</entity>

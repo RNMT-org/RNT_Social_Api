@@ -1,0 +1,19 @@
+[ {
+  "name" : "tag:root",
+  "showName" : "Tag Root"
+}, {
+  "name" : "tag:create",
+  "showName" : "Tag Create"
+}, {
+  "name" : "tag:update",
+  "showName" : "Tag Update"
+}, {
+  "name" : "tag:read",
+  "showName" : "Tag Read"
+}, {
+  "name" : "tag:search",
+  "showName" : "Tag Search"
+}, {
+  "name" : "tag:delete",
+  "showName" : "Tag Delete"
+} ]

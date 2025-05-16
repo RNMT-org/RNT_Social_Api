@@ -1,0 +1,19 @@
+[ {
+  "name" : "person:root",
+  "showName" : "Person Root"
+}, {
+  "name" : "person:create",
+  "showName" : "Person Create"
+}, {
+  "name" : "person:update",
+  "showName" : "Person Update"
+}, {
+  "name" : "person:read",
+  "showName" : "Person Read"
+}, {
+  "name" : "person:search",
+  "showName" : "Person Search"
+}, {
+  "name" : "person:delete",
+  "showName" : "Person Delete"
+} ]

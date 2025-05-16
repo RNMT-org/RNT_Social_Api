@@ -1,0 +1,22 @@
+<entity>
+    <name>PropertyPoolTransaction</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>amount</name>
+            <type>DOUBLE</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyTransaction</relatedEntityName>
+            <required>true</required>
+        </relationship>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyPoolSession</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

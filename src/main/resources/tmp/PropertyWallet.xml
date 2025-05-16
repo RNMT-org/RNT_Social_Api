@@ -1,0 +1,17 @@
+<entity>
+    <name>PropertyWallet</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>balance</name>
+            <type>DOUBLE</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Property</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

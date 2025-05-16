@@ -1,0 +1,14 @@
+<entity>
+    <name>EventDefinition</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+        </field>
+        <field>
+            <name>payload</name>
+            <type>STRING</type> <!-- Dictionary<string, string> simplified -->
+        </field>
+    </fields>
+</entity>

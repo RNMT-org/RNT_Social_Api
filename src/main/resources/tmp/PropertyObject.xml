@@ -1,0 +1,25 @@
+<entity>
+    <name>PropertyObject</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+        </field>
+        <field>
+            <name>baseAmount</name>
+            <type>DOUBLE</type>
+        </field>
+        <field>
+            <name>extraAmount</name>
+            <type>DOUBLE</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Property</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

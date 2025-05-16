@@ -1,0 +1,29 @@
+<entity>
+    <name>PropertyPoolSession</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>expectedEndTime</name>
+            <type>LOCAL_DATE_TIME</type>
+        </field>
+        <field>
+            <name>isFullProcess</name>
+            <type>BOOLEAN</type>
+        </field>
+        <field>
+            <name>startTime</name>
+            <type>LOCAL_DATE_TIME</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyPool</relatedEntityName>
+            <required>true</required>
+        </relationship>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>PropertyPoolSession</relatedEntityName>
+        </relationship>
+    </relationships>
+</entity>

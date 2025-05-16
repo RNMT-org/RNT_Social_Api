@@ -1,0 +1,4 @@
+[ {
+  "name" : "POST_ADMIN",
+  "permissions" : [ "post:root", "post:create", "post:read", "post:search", "post:update", "post:delete" ]
+} ]

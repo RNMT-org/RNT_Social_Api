@@ -1,0 +1,29 @@
+<entity>
+    <name>PropertyPool</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>amount</name>
+            <type>DOUBLE</type>
+        </field>
+        <field>
+            <name>ratio</name>
+            <type>DOUBLE</type>
+        </field>
+        <field>
+            <name>isComplete</name>
+            <type>BOOLEAN</type>
+        </field>
+        <field>
+            <name>autoSessionStart</name>
+            <type>BOOLEAN</type>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Property</relatedEntityName>
+            <required>true</required>
+        </relationship>
+    </relationships>
+</entity>

@@ -1,0 +1,4 @@
+[ {
+  "name" : "PERSON_ADMIN",
+  "permissions" : [ "person:root", "person:create", "person:read", "person:search", "person:update", "person:delete" ]
+} ]

@@ -1,0 +1,19 @@
+[ {
+  "name" : "post:root",
+  "showName" : "Post Root"
+}, {
+  "name" : "post:create",
+  "showName" : "Post Create"
+}, {
+  "name" : "post:update",
+  "showName" : "Post Update"
+}, {
+  "name" : "post:read",
+  "showName" : "Post Read"
+}, {
+  "name" : "post:search",
+  "showName" : "Post Search"
+}, {
+  "name" : "post:delete",
+  "showName" : "Post Delete"
+} ]

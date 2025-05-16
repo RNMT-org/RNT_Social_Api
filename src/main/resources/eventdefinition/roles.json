@@ -1,0 +1,4 @@
+[ {
+  "name" : "EVENTDEFINITION_ADMIN",
+  "permissions" : [ "eventdefinition:root" ]
+} ]
