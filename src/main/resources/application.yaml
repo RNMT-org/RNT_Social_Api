@@ -130,6 +130,6 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   title: RNT Social Api
-  description: RNT Social Apis
+  description: RNT Social Api
   version: 1.0.0
 
