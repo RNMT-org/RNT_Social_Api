@@ -10,7 +10,7 @@
     </parent>
     <groupId>ir.rayanovinmt</groupId>
     <artifactId>RNT_Social_Api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>RNT_Social_Api</name>
     <description>RNT_Social_Api</description>
     <url/>
@@ -225,7 +225,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-                    <mainClass>ir.rayanovinmt.rnt_social_admin_server.Application</mainClass>
+                    <mainClass>ir.rayanovinmt.rnt_social_api.RntSocialApiApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

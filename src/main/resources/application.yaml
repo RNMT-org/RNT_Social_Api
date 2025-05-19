@@ -80,16 +80,16 @@ server:
 
 s3:
   liara:
-#    endpoint: https://storage.c2.liara.space
-#    access: ablomnn1lsfsrv93
-#    secret: 1a063f15-f94e-4848-ae1b-3719a32d1af7
-    endpoint: http://localhost:9000
-    access: minioadmin
-    secret: minioadmin
+    endpoint: https://storage.c2.liara.space
+    access: ablomnn1lsfsrv93
+    secret: 1a063f15-f94e-4848-ae1b-3719a32d1af7
+#    endpoint: http://localhost:9000
+#    access: minioadmin
+#    secret: minioadmin
 
 security:
   init:
-    enabled: true
+    enabled: false
   jwt:
     exp: 86400000
 
@@ -107,7 +107,7 @@ image-processor:
   scale: 1.0
 
 generator:
-  enabled: true
+  enabled: false
   xmlFolderPath: generate-xmls
   basePackage: ir.rayanovinmt.rnt_social_api
 
@@ -129,7 +129,7 @@ springdoc:
     enabled: ${SWAGGER_UI_ENABLED:true}
   api-docs:
     path: /v3/api-docs
-  title: RNT Social
+  title: RNT Social Api
   description: RNT Social Apis
   version: 1.0.0
 

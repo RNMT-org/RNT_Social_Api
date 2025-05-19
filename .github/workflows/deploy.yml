@@ -1,0 +1,180 @@
+name: 🚀 Deploy the Mighty Rnt Social API 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🎉 Checkout the glorious code
+        uses: actions/checkout@v4
+
+      - name: ☕ Set up JDK 21 (Because Java is life)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: 🔨 Build with Maven (with GitHub Token)
+        run: mvn clean install -DskipTests
+
+      - name: 🔍 Find the executable JAR
+        id: find-jar
+        run: |
+          # Find the Spring Boot repackaged JAR (usually the largest one)
+          JAR_FILE=$(find ./target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" -exec ls -S {} + | head -n 1)
+          echo "JAR_FILE_PATH=$JAR_FILE" >> $GITHUB_ENV
+          echo "🔍 Found executable JAR: $JAR_FILE"
+
+      - name: 🔍 Verify JAR has manifest & Spring boot executable
+        run: |
+          # Find the main JAR (excluding sources/javadoc/original)
+          JAR_FILE=$(find ./target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" | head -n 1)
+          
+          if [ -z "$JAR_FILE" ]; then
+            echo "❌ Error: No JAR file found!"
+            exit 1
+          fi
+          
+          echo "JAR_FILE_PATH=$JAR_FILE" >> $GITHUB_ENV
+          echo "🔍 Found JAR file: $JAR_FILE"
+          
+          # Verify it contains a manifest (using jar command instead of unzip)
+          if ! jar tf "$JAR_FILE" | grep -q META-INF/MANIFEST.MF; then
+            echo "❌ Error: No manifest found in JAR!"
+            echo "JAR contents:"
+            jar tf "$JAR_FILE" | head -20
+            exit 1
+          fi
+          
+          # Additional verification for Spring Boot apps
+          if ! jar tf "$JAR_FILE" | grep -q BOOT-INF/classes; then
+            echo "⚠️ Warning: Not a Spring Boot executable JAR?"
+          fi
+
+      - name: 🛠 Install missing warriors (rsync and sshpass)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync sshpass
+
+      - name: 🛡 Fetch server host key (because security matters)
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          echo "🔑 Trust established with ${{ secrets.SERVER_IP }}"
+
+      - name: 🚀 Deploy with Real Rsync Progress
+        run: |
+          echo "🔥 Deploying $(basename ${JAR_FILE_PATH}) (Size: $(du -h ${JAR_FILE_PATH} | cut -f1))"
+          
+          # Rsync with proper progress reporting
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" \
+            rsync -avz --info=progress2 --compress-level=9 --human-readable \
+            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            ${JAR_FILE_PATH} \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/root/build/rnt_social_api.jar
+          
+          echo "✅ Deployment complete!"
+          echo "🔄 Verifying remote file..."
+          
+          # Get transfer verification
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" \
+            ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} \
+            "ls -lh /root/build/rnt_social_api.jar && \
+             echo 'Checksum: '$(md5sum /root/build/rnt_social_api.jar | cut -d' ' -f1)"
+
+      - name: 🧐 Verify JAR on server (Because trust issues)
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "🕵️ Checking if the JAR survived the journey..."
+            echo "JAR file size on server: $(du -h /root/build/rnt_social_api.jar)"
+            echo "JAR file contents preview:"
+            jar tf /root/build/rnt_social_api.jar | head -n 10
+            echo "✅ JAR looks good!"
+
+      - name: 🔓 Set file permissions (Because Linux likes control)
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "🔧 Adjusting permissions for rnt_social_api.jar"
+            sudo chmod 644 /root/build/rnt_social_api.jar
+            sudo chown root:root /root/build/rnt_social_api.jar
+            echo "✅ Permissions updated!"
+
+      - name: 🔄 Restart Rnt Social API (Brace yourself...)
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "💀 Killing the old process..."
+            sudo systemctl daemon-reload
+            sudo systemctl restart rnt-social-api
+            echo "🚀 The new rnt-social-api is rising from the ashes!"
+            sudo systemctl status rnt-social-api --no-pager
+            echo "🎉 API is ALIVE! Time to celebrate! 🎉"
+
+      - name: 🖼️ Pre-deployment Meme Motivation (Optional but fun)
+        run: |
+          echo "🔴 STOP! Before we continue, take a deep breath."
+          echo "Here's some motivation for you: https://i.imgur.com/ZF7YhIj.jpg"
+          echo "Now, let's ship it! 🚀"
+
+#      - name: 🥳 Send Slack Notification on Success
+#        if: success()
+#        uses: rtCamp/action-slack-notify@v2.3.2
+#        env:
+#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#          SLACK_CHANNEL: "#deployments"
+#          SLACK_USERNAME: "GitHub Actions"
+#          SLACK_MESSAGE: |
+#            🎉 *Rnt Social API Deployment: SUCCESS!* 🚀
+#            ✅ *Everything went smoothly! Time to grab a coffee! ☕*
+#            *Repository:* ${{ github.repository }}
+#            *Branch:* ${{ github.ref_name }}
+#            *Commit:* `${{ github.sha }}`
+#            *Deployed by:* ${{ github.actor }}
+#            *Server:* `${{ secrets.SERVER_IP }}`
+#            🕺 *Now do a little dance to celebrate!*
+#            https://giphy.com/gifs/party-dance-dancing-xT9Igo6YzPZSdTqdVu
+#          SLACK_COLOR: "good"
+
+#      - name: 🤬 Send Slack Notification on Failure
+#        if: failure()
+#        uses: rtCamp/action-slack-notify@v2.3.2
+#        env:
+#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#          SLACK_CHANNEL: "#deployments"
+#          SLACK_USERNAME: "GitHub Actions"
+#          SLACK_MESSAGE: |
+#            😡 *Deployment Failed!* 🚨
+#            ❌ Something went horribly wrong!
+#            *Repository:* ${{ github.repository }}
+#            *Branch:* ${{ github.ref_name }}
+#            *Commit:* `${{ github.sha }}`
+#            *Blame:* ${{ github.actor }} (jk... or maybe not 🤔)
+#            *Server:* `${{ secrets.SERVER_IP }}`
+#            🚑 *Check logs in GitHub Actions!*
+#            https://giphy.com/gifs/disaster-explosion-fire-3o7TKU8RvQuomFfUUU
+#          SLACK_COLOR: "danger"
+
+      - name: 💃 Celebrate (Only if successful)
+        if: success()
+        run: |
+          echo "🎊🎉 Deployment was a success! Time for a victory dance! 🕺💃"
+          echo "https://giphy.com/gifs/party-dance-dancing-xT9Igo6YzPZSdTqdVu"
