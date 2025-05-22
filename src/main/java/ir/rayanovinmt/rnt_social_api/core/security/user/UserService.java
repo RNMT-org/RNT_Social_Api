@@ -12,6 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -33,7 +37,25 @@ public class UserService {
                 .build();
 
         User createdUser = userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user.getUsername(), jwtExp);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("authorization",
+                createdUser.getRoles().stream()
+                        .map(roleEntity -> UserRoleDto.builder()
+                                .name(roleEntity.getName())
+                                .permissions(roleEntity.getPermission().stream()
+                                        .map(permissionEntity -> UserPermissionDto.builder()
+                                                .name(permissionEntity.getName())
+                                                .showName(permissionEntity.getShowName())
+                                                .build())
+                                        .toList())
+                                .build()).toList()
+        );
+
+        String jwtToken = jwtService.generateToken(
+                extraClaims,
+                user.getUsername(),
+                jwtExp
+        );
 
         return UserMapper.INSTANCE.toResponseDto(createdUser, jwtToken);
     }
@@ -47,7 +69,27 @@ public class UserService {
         );
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
-        String jwtToken = jwtService.generateToken(user.getUsername(), jwtExp);
+
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("authorization",
+                user.getRoles().stream()
+                        .map(roleEntity -> UserRoleDto.builder()
+                                .name(roleEntity.getName())
+                                .permissions(roleEntity.getPermission().stream()
+                                        .map(permissionEntity -> UserPermissionDto.builder()
+                                                .name(permissionEntity.getName())
+                                                .showName(permissionEntity.getShowName())
+                                                .build())
+                                        .toList())
+                                .build()).toList()
+        );
+
+        String jwtToken = jwtService.generateToken(
+                extraClaims,
+                user.getUsername(),
+                jwtExp
+        );
+
 
         return UserMapper.INSTANCE.toResponseDto(user, jwtToken);
     }
