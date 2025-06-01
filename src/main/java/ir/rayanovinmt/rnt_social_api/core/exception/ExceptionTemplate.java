@@ -21,7 +21,8 @@ public enum ExceptionTemplate {
     CONTRACT_DOCUMENT_PROCESS_ERROR("document.process.error", HttpStatus.BAD_REQUEST),
     PDF_PAGE_ERROR_OR_NOT_FOUND("pdf.page.error", HttpStatus.INTERNAL_SERVER_ERROR),
     PERMISSION_ERROR("security.permission.error", HttpStatus.FORBIDDEN),
-    ROLE_ERROR("security.role.error", HttpStatus.FORBIDDEN);
+    ROLE_ERROR("security.role.error", HttpStatus.FORBIDDEN),
+    USER_DUPLICATED_ERROR("security.user.duplicated", HttpStatus.FORBIDDEN);
 
     String key;
     HttpStatus status;

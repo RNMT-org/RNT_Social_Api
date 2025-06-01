@@ -1,6 +1,9 @@
 package ir.rayanovinmt.rnt_social_api.core.security.user;
 
+import ir.rayanovinmt.rnt_social_api.core.exception.ExceptionTemplate;
+import ir.rayanovinmt.rnt_social_api.core.exception.ExceptionUtil;
 import ir.rayanovinmt.rnt_social_api.core.security.jwt.JwtService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +32,7 @@ public class UserService {
     @Value("${security.jwt.exp}")
     Long jwtExp;
 
+    @Transactional
     public UserResponseDto register(UserRegisterDto request) {
         User user = User
                 .builder()
@@ -36,9 +41,15 @@ public class UserService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
+        Optional<User> foundedUser = userRepository.findByUsername(user.getUsername());
+
+        if (foundedUser.isPresent()){
+           throw ExceptionUtil.make(ExceptionTemplate.USER_DUPLICATED_ERROR);
+        }
+
         User createdUser = userRepository.save(user);
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("authorization",
+        extraClaims.put("authorization",createdUser.getRoles() == null ? null :
                 createdUser.getRoles().stream()
                         .map(roleEntity -> UserRoleDto.builder()
                                 .name(roleEntity.getName())
