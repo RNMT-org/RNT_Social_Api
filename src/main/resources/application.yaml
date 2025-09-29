@@ -33,6 +33,10 @@ spring:
     redis:
       url: redis://:${REDIS_PASSWORD:12345678}@${REDIS_HOST:localhost}:${REDIS_PORT:6379}/0
       timeout: 6000
+  # Logs the status of the Async Thread Pool every 5 seconds.
+  profiles:
+    active: dev
+
 
   servlet:
     multipart:
@@ -133,4 +137,3 @@ springdoc:
   title: RNT Social Api
   description: RNT Social Api
   version: 1.0.0
-
