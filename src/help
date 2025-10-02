@@ -1,0 +1,18 @@
+find src/main/java/ir/rayanovinmt/rnt_social_api/core/security/annotation -type f -exec echo "==== {} ====" \; -exec cat {} \;
+
+Get-ChildItem "src\main\java\ir\rayanovinmt\rnt_social_api\core\security\annotation" -File | ForEach-Object {
+    "==== $($_.FullName) ====";
+    Get-Content $_.FullName
+} | Out-File "annotation_output.txt" -Encoding utf8
+
+Get-ChildItem ".\core\security\annotation" -File | ForEach-Object {
+    "==== $($_.FullName) ===="
+    Get-Content $_.FullName
+} | Out-File "annotation_output.txt" -Encoding utf8
+
+$Out = "annotation_output.txt"
+if (Test-Path $Out) { Remove-Item $Out }
+Get-ChildItem .\core\security\annotation -Filter *.java | ForEach-Object {
+  "==== $($_.Name) ====" | Out-File $Out -Append -Encoding utf8
+  Get-Content $_.FullName | Out-File $Out -Append -Encoding utf8
+}
