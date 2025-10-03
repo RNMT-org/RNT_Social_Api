@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import ir.rayanovinmt.rnt_social_api.core.response.ApiResponse;
 import ir.rayanovinmt.rnt_social_api.core.search.SearchParams;
 import ir.rayanovinmt.rnt_social_api.core.search.SearchParamsWrapper;
+import ir.rayanovinmt.rnt_social_api.core.security.annotation.HasPermission;
 import ir.rayanovinmt.rnt_social_api.core.security.role.dto.*;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -21,11 +22,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Tag(name = "Role Management", description = "Endpoints for managing Role entities")
 public class RoleController {
-    
+
     RoleService roleService;
 
     @PostMapping
     @Operation(summary = "Create a new Role")
+    @HasPermission("role:create")
     public ResponseEntity<ApiResponse<RoleLoadDto>> create(
             @Valid @RequestBody RoleCreateDto createDto) {
         return ResponseEntity.ok(ApiResponse.success(roleService.create(createDto)));
@@ -33,20 +35,23 @@ public class RoleController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing Role")
+    @HasPermission("role:update")
     public ResponseEntity<ApiResponse<RoleLoadDto>> update(
-            @PathVariable Long id, 
+            @PathVariable Long id,
             @Valid @RequestBody RoleUpdateDto updateDto) {
         return ResponseEntity.ok(ApiResponse.success(roleService.update(id, updateDto)));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a Role by ID")
+    @HasPermission("role:read")
     public ResponseEntity<ApiResponse<RoleLoadDto>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success(roleService.findById(id)));
     }
 
     @GetMapping
     @Operation(summary = "Search Role entities")
+    @HasPermission("role:search")
     public ResponseEntity<ApiResponse<List<RoleLoadDto>>> search(
             @SearchParams SearchParamsWrapper params) {
         return ResponseEntity.ok(ApiResponse.success(roleService.search(params)));
@@ -54,6 +59,7 @@ public class RoleController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a Role")
+    @HasPermission("role:delete")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         roleService.deleteLogical(id);
         return ResponseEntity.noContent().build();

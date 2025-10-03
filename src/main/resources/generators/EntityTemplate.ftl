@@ -30,6 +30,9 @@ import lombok.experimental.SuperBuilder;
         <#if !imports?seq_contains("java.util.Set")>
             <#assign imports += ["java.util.Set"]>
         </#if>
+        <#if !imports?seq_contains("java.util.HashSet")>
+            <#assign imports += ["java.util.HashSet"]>
+        </#if>
     </#if>
     <#if rel.document>
         <#if !imports?seq_contains(basePackage + ".core.document.Document")>
@@ -57,71 +60,88 @@ import ${imp};
 @Entity
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "${tableName}")
+@Table(name = "${tableName}"<#if fields?has_content && fields?filter(f -> f.unique)?size gt 0>
+    , uniqueConstraints = {
+<#list fields?filter(f -> f.unique) as field>
+        @UniqueConstraint(name = "${tableName}_${field.effectiveColumnName}_unique", columnNames = "${field.effectiveColumnName}")<#sep>,</#sep>
+</#list>
+    }</#if><#if fields?has_content && fields?filter(f -> f.indexed)?size gt 0>
+    , indexes = {
+<#list fields?filter(f -> f.indexed) as field>
+        @Index(name = "${field.indexName!tableName + '_' + field.effectiveColumnName + '_idx'}", columnList = "${field.effectiveColumnName}")<#sep>,</#sep>
+</#list>
+    }</#if>
+)
 public class ${entityName}Entity extends BaseEntity {
 
 <#list fields as field>
-    <#if field.required>
-    @Column(nullable = false)
-    </#if>
+    <#-- Column annotation with all options -->
+    @Column(<#if field.effectiveColumnName != field.name>name = "${field.effectiveColumnName}"<#if field.required || field.hasColumnCustomization()>, </#if></#if><#if field.required>nullable = false<#if field.hasColumnCustomization()>, </#if></#if><#if field.unique>unique = true<#if field.length?? || field.precision?? || field.defaultValue??>, </#if></#if><#if field.length??>length = ${field.length?c}<#if field.precision?? || field.defaultValue??>, </#if></#if><#if field.precision??>precision = ${field.precision?c}<#if field.scale??>, scale = ${field.scale?c}</#if><#if field.defaultValue??>, </#if></#if><#if field.defaultValue??>columnDefinition = "${field.type.type} default '${field.defaultValue}'"</#if>)
     <#if field.type.type == "Enum">
     @Enumerated(EnumType.STRING)
     ${entityName?cap_first}${field.name?cap_first}Enum ${field.name};
     <#else>
     ${field.type.type} ${field.name};
     </#if>
-</#list>
 
+</#list>
 <#list relationships as rel>
+    <#-- One-to-One Relationship -->
     <#if rel.type.type == "OneToOne">
         <#if rel.hasMappedBy()>
-    @OneToOne(mappedBy = "${rel.mappedBy}", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "${rel.mappedBy}"<#if rel.cascade??>, cascade = ${rel.cascadeTypes}</#if><#if rel.orphanRemoval>, orphanRemoval = true</#if><#if rel.fetch??>, fetch = ${rel.fetchType}</#if><#if !rel.optional>, optional = false</#if>)
         <#else>
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(<#if rel.cascade??>cascade = ${rel.cascadeTypes}<#if rel.fetch??>, </#if></#if><#if rel.fetch??>fetch = ${rel.fetchType}<#if !rel.optional>, </#if></#if><#if !rel.optional>optional = false</#if>)
+    @JoinColumn(name = "${rel.effectiveJoinColumnName}"<#if rel.required>, nullable = false</#if><#if rel.referencedColumnName??>, referencedColumnName = "${rel.referencedColumnName}"</#if>)
         </#if>
         <#if rel.document>
-    Document ${rel.name?uncap_first};
+    Document ${rel.relationshipName};
         <#else>
-    ${rel.relatedEntityName}Entity ${rel.relatedEntityName?uncap_first};
+    ${rel.relatedEntityName}Entity ${rel.relationshipName};
         </#if>
+
     </#if>
+    <#-- One-to-Many Relationship -->
     <#if rel.type.type == "OneToMany">
         <#if rel.hasMappedBy()>
-    @OneToMany(mappedBy = "${rel.mappedBy}", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "${rel.mappedBy}"<#if rel.cascade??>, cascade = ${rel.cascadeTypes}</#if><#if rel.orphanRemoval>, orphanRemoval = true</#if><#if rel.fetch??>, fetch = ${rel.fetchType}</#if>)
         <#else>
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(<#if rel.cascade??>cascade = ${rel.cascadeTypes}<#if rel.fetch??>, </#if></#if><#if rel.fetch??>fetch = ${rel.fetchType}</#if>)
+    @JoinColumn(name = "${rel.effectiveJoinColumnName}")
         </#if>
         <#if rel.document>
-    List<Document> ${rel.name?uncap_first};
+    List<Document> ${rel.relationshipName};
         <#else>
-    List<${rel.relatedEntityName}Entity> ${rel.relatedEntityName?uncap_first};
+    List<${rel.relatedEntityName}Entity> ${rel.relationshipName};
         </#if>
+
     </#if>
+    <#-- Many-to-One Relationship -->
     <#if rel.type.type == "ManyToOne">
-    @ManyToOne
-        <#if rel.required>
-    @JoinColumn(name = "${rel.relatedEntityName?lower_case}_id", nullable = false)
-        <#else>
-    @JoinColumn(name = "${rel.relatedEntityName?lower_case}_id")
-        </#if>
+    @ManyToOne(<#if rel.cascade??>cascade = ${rel.cascadeTypes}<#if rel.fetch??>, </#if></#if><#if rel.fetch??>fetch = ${rel.fetchType}<#if !rel.optional>, </#if></#if><#if !rel.optional>optional = false</#if>)
+    @JoinColumn(name = "${rel.effectiveJoinColumnName}"<#if rel.required>, nullable = false</#if><#if rel.referencedColumnName??>, referencedColumnName = "${rel.referencedColumnName}"</#if>)
     <#if rel.document>
-        Document ${rel.name?uncap_first};
+    Document ${rel.relationshipName};
     <#else>
-        ${rel.relatedEntityName}Entity ${rel.relatedEntityName?uncap_first};
+    ${rel.relatedEntityName}Entity ${rel.relationshipName};
     </#if>
+
     </#if>
+    <#-- Many-to-Many Relationship -->
     <#if rel.type.type == "ManyToMany">
         <#if rel.hasMappedBy()>
-    @ManyToMany(mappedBy = "${rel.mappedBy}")
+    @ManyToMany(mappedBy = "${rel.mappedBy}"<#if rel.cascade??>, cascade = ${rel.cascadeTypes}</#if><#if rel.fetch??>, fetch = ${rel.fetchType}</#if>)
         <#else>
-    @ManyToMany
-        </#if>
+    @ManyToMany(<#if rel.cascade??>cascade = ${rel.cascadeTypes}<#if rel.fetch??>, </#if></#if><#if rel.fetch??>fetch = ${rel.fetchType}</#if>)
     @JoinTable(
-        name = "${entityName?lower_case}_${rel.relatedEntityName?lower_case}",
+        name = "${rel.getEffectiveJoinTableName(entityName)}",
         joinColumns = @JoinColumn(name = "${entityName?lower_case}_id"),
-        inverseJoinColumns = @JoinColumn(name = "${rel.relatedEntityName?lower_case}_id")
+        inverseJoinColumns = @JoinColumn(name = "${rel.inverseJoinColumnName!rel.relatedEntityName?lower_case + '_id'}")
     )
-    Set<${rel.relatedEntityName}Entity> ${rel.relatedEntityName?uncap_first};
+        </#if>
+    @Builder.Default
+    Set<${rel.relatedEntityName}Entity> ${rel.relationshipName} = new HashSet<>();
+
     </#if>
 </#list>
 }

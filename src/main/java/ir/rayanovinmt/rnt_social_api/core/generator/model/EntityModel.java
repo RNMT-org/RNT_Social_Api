@@ -39,10 +39,12 @@ public class EntityModel {
     @Builder.Default
     List<RelationModel> relations = new ArrayList<>();
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean hasFields() {
         return fields != null && !fields.isEmpty();
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean hasRelations() {
         return relations != null && !relations.isEmpty();
     }

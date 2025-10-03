@@ -13,9 +13,11 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "persons")
+@Table(name = "persons"
+)
 public class PersonEntity extends BaseEntity {
 
+    @Column()
     String name;
 
 }

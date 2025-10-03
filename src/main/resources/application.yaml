@@ -93,7 +93,12 @@ s3:
 
 security:
   init:
-    enabled: false
+    enabled: true
+    super-admin:
+      username: ${SUPER_ADMIN_USERNAME:admin}
+      password: ${SUPER_ADMIN_PASSWORD:Admin@12345}
+      email: ${SUPER_ADMIN_EMAIL:admin@rnt.ir}
+      name: ${SUPER_ADMIN_NAME:System Administrator}
   jwt:
     exp: 86400000
 

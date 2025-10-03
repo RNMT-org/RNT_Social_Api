@@ -13,9 +13,11 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "tags")
+@Table(name = "tags"
+)
 public class TagEntity extends BaseEntity {
 
+    @Column()
     String name;
 
 }

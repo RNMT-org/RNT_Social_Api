@@ -2,6 +2,8 @@ package ir.rayanovinmt.rnt_social_api.core.security.user;
 
 import ir.rayanovinmt.rnt_social_api.core.i18n.I18nUtil;
 import ir.rayanovinmt.rnt_social_api.core.response.ApiResponse;
+import ir.rayanovinmt.rnt_social_api.core.security.annotation.HasPermission;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -48,6 +50,42 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserDto>> get() {
         return ResponseEntity.ok(
                 ApiResponse.success(userService.get())
+        );
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse<UserDto>> update(
+            @Valid @RequestBody UserUpdateDto updateDto
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.success(userService.update(updateDto))
+        );
+    }
+
+    @PostMapping("/assign-roles")
+    @HasPermission("user:assign_roles")
+    public ResponseEntity<ApiResponse<UserDto>> assignRoles(
+            @Valid @RequestBody UserRoleAssignDto assignDto
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.success(userService.assignRoles(assignDto))
+        );
+    }
+
+    @GetMapping("/{userId}")
+    @HasPermission("user:read")
+    public ResponseEntity<ApiResponse<UserDto>> getUserById(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.success(userService.getUserById(userId))
+        );
+    }
+
+    @GetMapping("/authorization-context")
+    public ResponseEntity<ApiResponse<UserAuthorizationDto>> getAuthorizationContext() {
+        return ResponseEntity.ok(
+                ApiResponse.success(userService.getAuthorizationContext())
         );
     }
 }

@@ -29,7 +29,6 @@ public class HasPermissionAspect {
         Set<String> permissionsRequired = new HashSet<>(Arrays.asList(hasPermission.value())).stream()
                 .map(permission -> "PERMISSION_" + permission)
                 .collect(Collectors.toSet());
-        System.out.println(permissionsRequired);
 
         Set<String> userPermissions = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

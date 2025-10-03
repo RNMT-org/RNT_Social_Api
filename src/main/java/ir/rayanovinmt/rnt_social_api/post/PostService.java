@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class PostService extends BaseService<PostEntity, PostCreateDto, PostUpdateDto, PostLoadDto> {
+public class PostService extends BaseService<PostEntity , PostCreateDto, PostUpdateDto, PostLoadDto> {
     PostRepository repository;
     PostMapper mapper = Mappers.getMapper(PostMapper.class);
 
@@ -28,7 +28,7 @@ public class PostService extends BaseService<PostEntity, PostCreateDto, PostUpda
     }
 
     @Override
-    protected BaseMapper<PostEntity, PostCreateDto, PostUpdateDto, PostLoadDto> getMapper() {
+    protected BaseMapper<PostEntity , PostCreateDto, PostUpdateDto, PostLoadDto> getMapper() {
         return mapper;
     }
 

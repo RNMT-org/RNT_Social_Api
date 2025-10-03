@@ -1,6 +1,8 @@
 package ir.rayanovinmt.rnt_social_api.post.dto;
 
 import ir.rayanovinmt.rnt_social_api.core.entity.BaseDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -14,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostCreateDto extends BaseDto {
     String title;
+
 }

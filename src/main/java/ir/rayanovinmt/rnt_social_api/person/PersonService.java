@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class PersonService extends BaseService<PersonEntity, PersonCreateDto, PersonUpdateDto, PersonLoadDto> {
+public class PersonService extends BaseService<PersonEntity , PersonCreateDto, PersonUpdateDto, PersonLoadDto> {
     PersonRepository repository;
     PersonMapper mapper = Mappers.getMapper(PersonMapper.class);
 
@@ -28,7 +28,7 @@ public class PersonService extends BaseService<PersonEntity, PersonCreateDto, Pe
     }
 
     @Override
-    protected BaseMapper<PersonEntity, PersonCreateDto, PersonUpdateDto, PersonLoadDto> getMapper() {
+    protected BaseMapper<PersonEntity , PersonCreateDto, PersonUpdateDto, PersonLoadDto> getMapper() {
         return mapper;
     }
 

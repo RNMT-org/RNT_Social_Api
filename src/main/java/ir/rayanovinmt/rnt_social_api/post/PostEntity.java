@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 import ir.rayanovinmt.rnt_social_api.person.PersonEntity;
 import ir.rayanovinmt.rnt_social_api.tag.TagEntity;
 
@@ -17,19 +18,24 @@ import ir.rayanovinmt.rnt_social_api.tag.TagEntity;
 @Entity
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "posts")
+@Table(name = "posts"
+)
 public class PostEntity extends BaseEntity {
 
+    @Column()
     String title;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false)
-        PersonEntity person;
-    @ManyToMany
+    PersonEntity person;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
         name = "post_tag",
         joinColumns = @JoinColumn(name = "post_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    Set<TagEntity> tag;
+    @Builder.Default
+    Set<TagEntity> tag = new HashSet<>();
+
 }

@@ -1,0 +1,168 @@
+<entity>
+    <name>Order</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>orderNumber</name>
+            <type>STRING</type>
+            <required>true</required>
+            <unique>true</unique>
+            <maxLength>50</maxLength>
+            <indexed>true</indexed>
+        </field>
+
+        <field>
+            <name>totalAmount</name>
+            <type>BIG_DECIMAL</type>
+            <required>true</required>
+            <precision>12</precision>
+            <scale>2</scale>
+            <positiveOrZero>true</positiveOrZero>
+        </field>
+
+        <field>
+            <name>discountAmount</name>
+            <type>BIG_DECIMAL</type>
+            <precision>10</precision>
+            <scale>2</scale>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0.00</defaultValue>
+        </field>
+
+        <field>
+            <name>shippingCost</name>
+            <type>BIG_DECIMAL</type>
+            <precision>10</precision>
+            <scale>2</scale>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0.00</defaultValue>
+        </field>
+
+        <field>
+            <name>taxAmount</name>
+            <type>BIG_DECIMAL</type>
+            <precision>10</precision>
+            <scale>2</scale>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0.00</defaultValue>
+        </field>
+
+        <field>
+            <name>status</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>PENDING</name>
+                    <value>Pending</value>
+                </enum>
+                <enum>
+                    <name>CONFIRMED</name>
+                    <value>Confirmed</value>
+                </enum>
+                <enum>
+                    <name>PROCESSING</name>
+                    <value>Processing</value>
+                </enum>
+                <enum>
+                    <name>SHIPPED</name>
+                    <value>Shipped</value>
+                </enum>
+                <enum>
+                    <name>DELIVERED</name>
+                    <value>Delivered</value>
+                </enum>
+                <enum>
+                    <name>CANCELLED</name>
+                    <value>Cancelled</value>
+                </enum>
+                <enum>
+                    <name>REFUNDED</name>
+                    <value>Refunded</value>
+                </enum>
+            </enums>
+        </field>
+
+        <field>
+            <name>paymentMethod</name>
+            <type>STRING</type>
+            <required>true</required>
+            <maxLength>50</maxLength>
+        </field>
+
+        <field>
+            <name>paymentStatus</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>PENDING</name>
+                    <value>Pending</value>
+                </enum>
+                <enum>
+                    <name>PAID</name>
+                    <value>Paid</value>
+                </enum>
+                <enum>
+                    <name>FAILED</name>
+                    <value>Failed</value>
+                </enum>
+                <enum>
+                    <name>REFUNDED</name>
+                    <value>Refunded</value>
+                </enum>
+            </enums>
+        </field>
+
+        <field>
+            <name>shippingAddress</name>
+            <type>STRING</type>
+            <required>true</required>
+            <length>500</length>
+        </field>
+
+        <field>
+            <name>billingAddress</name>
+            <type>STRING</type>
+            <length>500</length>
+        </field>
+
+        <field>
+            <name>customerNotes</name>
+            <type>STRING</type>
+            <length>1000</length>
+        </field>
+
+        <field>
+            <name>orderDate</name>
+            <type>LOCAL_DATE_TIME</type>
+            <required>true</required>
+        </field>
+
+        <field>
+            <name>deliveryDate</name>
+            <type>LOCAL_DATE_TIME</type>
+            <future>true</future>
+        </field>
+    </fields>
+
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Person</relatedEntityName>
+            <name>customer</name>
+            <required>true</required>
+            <cascade>PERSIST,MERGE</cascade>
+            <fetch>EAGER</fetch>
+        </relationship>
+
+        <relationship>
+            <relationshipType>ONE_TO_MANY</relationshipType>
+            <relatedEntityName>OrderItem</relatedEntityName>
+            <mappedBy>order</mappedBy>
+            <cascade>ALL</cascade>
+            <orphanRemoval>true</orphanRemoval>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

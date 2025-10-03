@@ -1,0 +1,48 @@
+<entity>
+    <name>Category</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+            <required>true</required>
+            <notBlank>true</notBlank>
+            <unique>true</unique>
+            <minLength>2</minLength>
+            <maxLength>100</maxLength>
+            <indexed>true</indexed>
+            <searchable>true</searchable>
+        </field>
+
+        <field>
+            <name>slug</name>
+            <type>STRING</type>
+            <required>true</required>
+            <unique>true</unique>
+            <maxLength>100</maxLength>
+            <pattern>^[a-z0-9-]+$</pattern>
+            <indexed>true</indexed>
+            <searchable>true</searchable>
+        </field>
+
+        <field>
+            <name>description</name>
+            <type>STRING</type>
+            <length>500</length>
+            <searchable>true</searchable>
+        </field>
+
+        <field>
+            <name>active</name>
+            <type>BOOLEAN</type>
+            <defaultValue>true</defaultValue>
+        </field>
+
+        <field>
+            <name>displayOrder</name>
+            <type>INTEGER</type>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0</defaultValue>
+        </field>
+    </fields>
+</entity>

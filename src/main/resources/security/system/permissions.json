@@ -1,0 +1,58 @@
+[
+  {
+    "name": "user:read",
+    "showName": "User Read"
+  },
+  {
+    "name": "user:assign_roles",
+    "showName": "User Assign Roles"
+  },
+  {
+    "name": "role:root",
+    "showName": "Role Root"
+  },
+  {
+    "name": "role:create",
+    "showName": "Role Create"
+  },
+  {
+    "name": "role:update",
+    "showName": "Role Update"
+  },
+  {
+    "name": "role:read",
+    "showName": "Role Read"
+  },
+  {
+    "name": "role:search",
+    "showName": "Role Search"
+  },
+  {
+    "name": "role:delete",
+    "showName": "Role Delete"
+  },
+  {
+    "name": "permission:root",
+    "showName": "Permission Root"
+  },
+  {
+    "name": "permission:create",
+    "showName": "Permission Create"
+  },
+  {
+    "name": "permission:update",
+    "showName": "Permission Update"
+  },
+  {
+    "name": "permission:read",
+    "showName": "Permission Read"
+  },
+  {
+    "name": "permission:search",
+    "showName": "Permission Search"
+  },
+  {
+    "name": "permission:delete",
+    "showName": "Permission Delete"
+  }
+]

@@ -1,0 +1,125 @@
+<entity>
+    <name>Product</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+            <required>true</required>
+            <notBlank>true</notBlank>
+            <minLength>3</minLength>
+            <maxLength>200</maxLength>
+            <searchable>true</searchable>
+        </field>
+
+        <field>
+            <name>sku</name>
+            <type>STRING</type>
+            <required>true</required>
+            <notBlank>true</notBlank>
+            <unique>true</unique>
+            <maxLength>50</maxLength>
+            <pattern>^[A-Z0-9-]+$</pattern>
+            <indexed>true</indexed>
+        </field>
+
+        <field>
+            <name>description</name>
+            <type>STRING</type>
+            <length>2000</length>
+            <searchable>true</searchable>
+        </field>
+
+        <field>
+            <name>price</name>
+            <type>BIG_DECIMAL</type>
+            <required>true</required>
+            <precision>10</precision>
+            <scale>2</scale>
+            <positive>true</positive>
+        </field>
+
+        <field>
+            <name>discountPrice</name>
+            <type>BIG_DECIMAL</type>
+            <precision>10</precision>
+            <scale>2</scale>
+            <positiveOrZero>true</positiveOrZero>
+        </field>
+
+        <field>
+            <name>stock</name>
+            <type>INTEGER</type>
+            <required>true</required>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0</defaultValue>
+        </field>
+
+        <field>
+            <name>weight</name>
+            <type>DOUBLE</type>
+            <positive>true</positive>
+        </field>
+
+        <field>
+            <name>dimensions</name>
+            <type>STRING</type>
+            <maxLength>100</maxLength>
+        </field>
+
+        <field>
+            <name>status</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>ACTIVE</name>
+                    <value>Active</value>
+                </enum>
+                <enum>
+                    <name>INACTIVE</name>
+                    <value>Inactive</value>
+                </enum>
+                <enum>
+                    <name>OUT_OF_STOCK</name>
+                    <value>Out Of Stock</value>
+                </enum>
+                <enum>
+                    <name>DISCONTINUED</name>
+                    <value>Discontinued</value>
+                </enum>
+            </enums>
+        </field>
+
+        <field>
+            <name>featured</name>
+            <type>BOOLEAN</type>
+            <defaultValue>false</defaultValue>
+        </field>
+
+        <field>
+            <name>viewCount</name>
+            <type>LONG</type>
+            <positiveOrZero>true</positiveOrZero>
+            <defaultValue>0</defaultValue>
+        </field>
+    </fields>
+
+    <relationships>
+        <relationship>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Category</relatedEntityName>
+            <required>true</required>
+            <fetch>EAGER</fetch>
+            <cascade>PERSIST,MERGE</cascade>
+        </relationship>
+
+        <relationship>
+            <relationshipType>MANY_TO_MANY</relationshipType>
+            <relatedEntityName>Tag</relatedEntityName>
+            <joinTableName>product_tags</joinTableName>
+            <searchable>true</searchable>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

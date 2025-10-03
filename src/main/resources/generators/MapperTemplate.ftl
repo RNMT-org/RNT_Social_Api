@@ -35,8 +35,19 @@ import ${basePackage}.${entityName?lower_case}.dto.*;
 import ${imp};
 </#list>
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {})
 public interface ${entityName}Mapper extends BaseMapper<${entityName}Entity , ${entityName}CreateDto, ${entityName}UpdateDto, ${entityName}LoadDto> {
+
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Override
+    ${entityName}Entity toEntity(${entityName}CreateDto createDto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Override
+    void updateEntityFromDto(${entityName}UpdateDto updateDto, @MappingTarget ${entityName}Entity entity);
 <#-- Mapping for List relations -->
 <#list relationships as rel>
 <#if rel.mappedBy?has_content>

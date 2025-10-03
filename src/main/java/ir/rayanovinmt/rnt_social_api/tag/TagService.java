@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class TagService extends BaseService<TagEntity, TagCreateDto, TagUpdateDto, TagLoadDto> {
+public class TagService extends BaseService<TagEntity , TagCreateDto, TagUpdateDto, TagLoadDto> {
     TagRepository repository;
     TagMapper mapper = Mappers.getMapper(TagMapper.class);
 
@@ -28,7 +28,7 @@ public class TagService extends BaseService<TagEntity, TagCreateDto, TagUpdateDt
     }
 
     @Override
-    protected BaseMapper<TagEntity, TagCreateDto, TagUpdateDto, TagLoadDto> getMapper() {
+    protected BaseMapper<TagEntity , TagCreateDto, TagUpdateDto, TagLoadDto> getMapper() {
         return mapper;
     }
 

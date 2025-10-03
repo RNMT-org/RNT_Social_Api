@@ -1,6 +1,10 @@
 package ${basePackage}.${entityName?lower_case}.dto;
 
 import ${basePackage}.core.entity.BaseDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<#if dtoType != "Load">
+import jakarta.validation.constraints.*;
+</#if>
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -42,28 +46,77 @@ import ${imp};
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ${entityName}${dtoType}Dto extends BaseDto {
 <#list fields as field>
+<#-- Add validation annotations for Create/Update DTOs -->
+<#if dtoType != "Load">
+    <#if field.required>
+    @NotNull(message = "${field.name} is required")
+    </#if>
+    <#if field.notBlank>
+    @NotBlank(message = "${field.name} cannot be blank")
+    </#if>
+    <#if field.notEmpty>
+    @NotEmpty(message = "${field.name} cannot be empty")
+    </#if>
+    <#if field.email>
+    @Email(message = "${field.name} must be a valid email")
+    </#if>
+    <#if field.min??>
+    @Min(${field.min})
+    </#if>
+    <#if field.max??>
+    @Max(${field.max})
+    </#if>
+    <#if field.minLength??>
+    @Size(min = ${field.minLength?c}<#if field.maxLength??>, max = ${field.maxLength?c}</#if>)
+    <#elseif field.maxLength??>
+    @Size(max = ${field.maxLength?c})
+    </#if>
+    <#if field.pattern??>
+    @Pattern(regexp = "${field.pattern}", message = "${field.name} does not match the required pattern")
+    </#if>
+    <#if field.positive>
+    @Positive(message = "${field.name} must be positive")
+    </#if>
+    <#if field.negative>
+    @Negative(message = "${field.name} must be negative")
+    </#if>
+    <#if field.positiveOrZero>
+    @PositiveOrZero(message = "${field.name} must be positive or zero")
+    </#if>
+    <#if field.negativeOrZero>
+    @NegativeOrZero(message = "${field.name} must be negative or zero")
+    </#if>
+    <#if field.future>
+    @Future(message = "${field.name} must be a future date")
+    </#if>
+    <#if field.past>
+    @Past(message = "${field.name} must be a past date")
+    </#if>
+</#if>
     <#if field.type.type == "Enum">
     ${entityName?cap_first}${field.name?cap_first}Enum ${field.name};
     <#else>
     ${field.type.type} ${field.name};
     </#if>
+
 </#list>
 <#list relationships as rel>
 <#if rel.mappedBy?has_content>
     <#if rel.type.type == "OneToOne" || rel.type.type == "ManyToOne">
         <#if rel.document>
-    DocumentDto ${rel.name?uncap_first};
+    DocumentDto ${rel.relationshipName};
         <#else>
-    ${rel.relatedEntityName}LoadDto ${rel.relatedEntityName?uncap_first};
+    ${rel.relatedEntityName}LoadDto ${rel.relationshipName};
         </#if>
     </#if>
     <#if rel.type.type == "OneToMany" || rel.type.type == "ManyToMany">
         <#if rel.document>
-    List<DocumentDto> ${rel.name?uncap_first};
+    List<DocumentDto> ${rel.relationshipName};
         <#else>
-    List<${rel.relatedEntityName}LoadDto> ${rel.relatedEntityName?uncap_first};
+    List<${rel.relatedEntityName}LoadDto> ${rel.relationshipName};
         </#if>
     </#if>
 </#if>
