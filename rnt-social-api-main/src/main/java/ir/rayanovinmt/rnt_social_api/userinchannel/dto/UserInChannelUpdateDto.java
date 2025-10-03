@@ -7,7 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.userinchannel.constant.UserInChannelRoleEnum;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
 import ir.rayanovinmt.rnt_social_api.channel.dto.ChannelLoadDto;
 
 @Getter
@@ -21,6 +21,6 @@ public class UserInChannelUpdateDto extends BaseDto {
     @NotNull(message = "role is required")
     UserInChannelRoleEnum role;
 
-    UserProfileLoadDto user;
+    UserLoadDto coreUser;
     ChannelLoadDto channel;
 }

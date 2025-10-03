@@ -3,9 +3,9 @@ package ir.rayanovinmt.rnt_social_api.city;
 import ir.rayanovinmt.core.entity.BaseMapper;
 import org.mapstruct.*;
 import ir.rayanovinmt.rnt_social_api.city.dto.*;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileMapper;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileEntity;
+import ir.rayanovinmt.core.security.user.UserMapper;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
+import ir.rayanovinmt.core.security.user.User;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
@@ -16,13 +16,13 @@ public interface CityMapper extends BaseMapper<CityEntity, CityCreateDto, CityUp
 
     @Override
     @Mappings({
-        @Mapping(target = "manager", ignore = true)
+        @Mapping(target = "coreUser", ignore = true)
     })
     CityEntity create(CityCreateDto createDto);
 
     @Override
     @Mappings({
-        @Mapping(target = "manager", ignore = true)
+        @Mapping(target = "coreUser", ignore = true)
     })
     void update(CityUpdateDto updateDto, @MappingTarget CityEntity target);
 }

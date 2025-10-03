@@ -6,9 +6,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.alert.constant.AlertLevelEnum;
+import ir.rayanovinmt.core.security.user.User;
 import ir.rayanovinmt.rnt_social_api.message.MessageEntity;
 import ir.rayanovinmt.rnt_social_api.keyword.KeywordEntity;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileEntity;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,8 +36,8 @@ public class AlertEntity extends BaseEntity {
     @JoinColumn(name = "keyword_id", nullable = false)
     KeywordEntity keyword;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipient_user_id", nullable = false)
-    UserProfileEntity recipient;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "core_user_id", unique = true, nullable = false)
+    User coreUser;
 
 }

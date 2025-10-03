@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import ir.rayanovinmt.rnt_social_api.message.MessageRepository;
 import ir.rayanovinmt.rnt_social_api.keyword.KeywordRepository;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileRepository;
+import ir.rayanovinmt.core.security.user.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class AlertService extends BaseService<AlertEntity , AlertCreateDto, Aler
     AlertMapper mapper = Mappers.getMapper(AlertMapper.class);
     MessageRepository messageRepository;
     KeywordRepository keywordRepository;
-    UserProfileRepository recipientRepository;
+    UserRepository userRepository;
 
     @Override
     protected BaseRepository<AlertEntity> getRepository() {
@@ -54,9 +54,9 @@ public class AlertService extends BaseService<AlertEntity , AlertCreateDto, Aler
             entity.setKeyword(keywordRepository.findById(createDto.getKeyword().getId())
                 .orElseThrow(() -> new RuntimeException("Keyword not found with id: " + createDto.getKeyword().getId())));
         }
-        if (createDto.getRecipient() != null && createDto.getRecipient().getId() != null) {
-            entity.setRecipient(recipientRepository.findById(createDto.getRecipient().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + createDto.getRecipient().getId())));
+        if (createDto.getCoreUser() != null && createDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(createDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getCoreUser().getId())));
         }
 
         AlertEntity savedEntity = repository.save(entity);
@@ -80,9 +80,9 @@ public class AlertService extends BaseService<AlertEntity , AlertCreateDto, Aler
             entity.setKeyword(keywordRepository.findById(updateDto.getKeyword().getId())
                 .orElseThrow(() -> new RuntimeException("Keyword not found with id: " + updateDto.getKeyword().getId())));
         }
-        if (updateDto.getRecipient() != null && updateDto.getRecipient().getId() != null) {
-            entity.setRecipient(recipientRepository.findById(updateDto.getRecipient().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + updateDto.getRecipient().getId())));
+        if (updateDto.getCoreUser() != null && updateDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(updateDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateDto.getCoreUser().getId())));
         }
 
         AlertEntity updatedEntity = repository.save(entity);

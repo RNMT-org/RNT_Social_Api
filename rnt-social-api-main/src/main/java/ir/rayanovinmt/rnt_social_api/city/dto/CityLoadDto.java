@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
 
 @Getter
 @Setter
@@ -16,4 +17,5 @@ import lombok.experimental.SuperBuilder;
 public class CityLoadDto extends BaseDto {
     String name;
 
+    UserLoadDto coreUser;
 }

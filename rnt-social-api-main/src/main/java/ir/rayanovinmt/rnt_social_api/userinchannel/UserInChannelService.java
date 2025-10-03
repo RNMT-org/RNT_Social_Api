@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileRepository;
+import ir.rayanovinmt.core.security.user.UserRepository;
 import ir.rayanovinmt.rnt_social_api.channel.ChannelRepository;
 
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import java.util.List;
 public class UserInChannelService extends BaseService<UserInChannelEntity , UserInChannelCreateDto, UserInChannelUpdateDto, UserInChannelLoadDto> {
     UserInChannelRepository repository;
     UserInChannelMapper mapper = Mappers.getMapper(UserInChannelMapper.class);
-    UserProfileRepository userRepository;
+    UserRepository userRepository;
     ChannelRepository channelRepository;
 
     @Override
@@ -44,9 +44,9 @@ public class UserInChannelService extends BaseService<UserInChannelEntity , User
         UserInChannelEntity entity = mapper.create(createDto);
 
         // Set relationships
-        if (createDto.getUser() != null && createDto.getUser().getId() != null) {
-            entity.setUser(userRepository.findById(createDto.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + createDto.getUser().getId())));
+        if (createDto.getCoreUser() != null && createDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(createDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getCoreUser().getId())));
         }
         if (createDto.getChannel() != null && createDto.getChannel().getId() != null) {
             entity.setChannel(channelRepository.findById(createDto.getChannel().getId())
@@ -66,9 +66,9 @@ public class UserInChannelService extends BaseService<UserInChannelEntity , User
         mapper.update(updateDto, entity);
 
         // Update relationships
-        if (updateDto.getUser() != null && updateDto.getUser().getId() != null) {
-            entity.setUser(userRepository.findById(updateDto.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + updateDto.getUser().getId())));
+        if (updateDto.getCoreUser() != null && updateDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(updateDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateDto.getCoreUser().getId())));
         }
         if (updateDto.getChannel() != null && updateDto.getChannel().getId() != null) {
             entity.setChannel(channelRepository.findById(updateDto.getChannel().getId())

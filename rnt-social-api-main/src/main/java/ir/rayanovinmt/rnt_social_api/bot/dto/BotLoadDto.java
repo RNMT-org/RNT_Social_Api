@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.bot.constant.BotStatusEnum;
+import ir.rayanovinmt.rnt_social_api.messagingplatform.dto.MessagingPlatformLoadDto;
 
 @Getter
 @Setter
@@ -19,4 +20,5 @@ public class BotLoadDto extends BaseDto {
 
     BotStatusEnum status;
 
+    MessagingPlatformLoadDto platform;
 }

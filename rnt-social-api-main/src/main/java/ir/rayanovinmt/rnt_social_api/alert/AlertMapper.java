@@ -9,9 +9,9 @@ import ir.rayanovinmt.rnt_social_api.message.MessageEntity;
 import ir.rayanovinmt.rnt_social_api.keyword.KeywordMapper;
 import ir.rayanovinmt.rnt_social_api.keyword.dto.KeywordLoadDto;
 import ir.rayanovinmt.rnt_social_api.keyword.KeywordEntity;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileMapper;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileEntity;
+import ir.rayanovinmt.core.security.user.UserMapper;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
+import ir.rayanovinmt.core.security.user.User;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
@@ -24,7 +24,7 @@ public interface AlertMapper extends BaseMapper<AlertEntity, AlertCreateDto, Ale
     @Mappings({
         @Mapping(target = "message", ignore = true),
         @Mapping(target = "keyword", ignore = true),
-        @Mapping(target = "recipient", ignore = true)
+        @Mapping(target = "coreUser", ignore = true)
     })
     AlertEntity create(AlertCreateDto createDto);
 
@@ -32,7 +32,7 @@ public interface AlertMapper extends BaseMapper<AlertEntity, AlertCreateDto, Ale
     @Mappings({
         @Mapping(target = "message", ignore = true),
         @Mapping(target = "keyword", ignore = true),
-        @Mapping(target = "recipient", ignore = true)
+        @Mapping(target = "coreUser", ignore = true)
     })
     void update(AlertUpdateDto updateDto, @MappingTarget AlertEntity target);
 }

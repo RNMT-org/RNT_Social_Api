@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.userinchannel.constant.UserInChannelRoleEnum;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
+import ir.rayanovinmt.rnt_social_api.channel.dto.ChannelLoadDto;
 
 @Getter
 @Setter
@@ -17,4 +19,6 @@ import ir.rayanovinmt.rnt_social_api.userinchannel.constant.UserInChannelRoleEnu
 public class UserInChannelLoadDto extends BaseDto {
     UserInChannelRoleEnum role;
 
+    UserLoadDto coreUser;
+    ChannelLoadDto channel;
 }

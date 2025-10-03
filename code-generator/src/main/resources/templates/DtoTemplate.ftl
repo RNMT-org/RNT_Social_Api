@@ -22,8 +22,7 @@ import lombok.experimental.SuperBuilder;
         </#if>
     </#if>
 </#list>
-<#-- Import LoadDto for relationships in Create/Update DTOs -->
-<#if (dtoType == "Create" || dtoType == "Update")>
+<#-- Import LoadDto for relationships in all DTOs (not just Create/Update) -->
 <#list relationships as rel>
     <#if !rel.mappedBy?has_content>
         <#if rel.document>
@@ -41,7 +40,6 @@ import lombok.experimental.SuperBuilder;
         </#if>
     </#if>
 </#list>
-</#if>
 <#list imports as imp>
 import ${imp};
 </#list>
@@ -52,7 +50,22 @@ import ${imp};
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+<#-- For LoadDto, ignore mappedBy fields to prevent circular JSON serialization -->
+<#if dtoType == "Load">
+<#assign ignoredFields = []>
+<#list relationships as rel>
+    <#if rel.mappedBy?has_content>
+        <#assign ignoredFields += [rel.relationshipName]>
+    </#if>
+</#list>
+<#if ignoredFields?size gt 0>
+@JsonIgnoreProperties(value = {<#list ignoredFields as field>"${field}"<#if field_has_next>, </#if></#list>}, ignoreUnknown = true)
+<#else>
 @JsonIgnoreProperties(ignoreUnknown = true)
+</#if>
+<#else>
+@JsonIgnoreProperties(ignoreUnknown = true)
+</#if>
 public class ${entityName}${dtoType}Dto extends BaseDto {
 <#list fields as field>
 <#-- Add validation annotations for Create/Update DTOs -->
@@ -109,9 +122,7 @@ public class ${entityName}${dtoType}Dto extends BaseDto {
     </#if>
 
 </#list>
-<#-- LoadDto: NO relationships to prevent circular dependencies -->
-<#-- Create/Update DTOs: Include LoadDto for relationships (only owning side) -->
-<#if (dtoType == "Create" || dtoType == "Update")>
+<#-- Include relationships for all DTOs (owning side only, not mappedBy) -->
 <#list relationships as rel>
     <#if !rel.mappedBy?has_content>
         <#if rel.type.type == "ManyToOne" || rel.type.type == "OneToOne">
@@ -125,5 +136,4 @@ public class ${entityName}${dtoType}Dto extends BaseDto {
         </#if>
     </#if>
 </#list>
-</#if>
 }

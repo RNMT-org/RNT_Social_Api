@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileRepository;
+import ir.rayanovinmt.core.security.user.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 public class CityService extends BaseService<CityEntity , CityCreateDto, CityUpdateDto, CityLoadDto> {
     CityRepository repository;
     CityMapper mapper = Mappers.getMapper(CityMapper.class);
-    UserProfileRepository managerRepository;
+    UserRepository userRepository;
 
     @Override
     protected BaseRepository<CityEntity> getRepository() {
@@ -48,9 +48,9 @@ public class CityService extends BaseService<CityEntity , CityCreateDto, CityUpd
         CityEntity entity = mapper.create(createDto);
 
         // Set relationships
-        if (createDto.getManager() != null && createDto.getManager().getId() != null) {
-            entity.setManager(managerRepository.findById(createDto.getManager().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + createDto.getManager().getId())));
+        if (createDto.getCoreUser() != null && createDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(createDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getCoreUser().getId())));
         }
 
         CityEntity savedEntity = repository.save(entity);
@@ -66,9 +66,9 @@ public class CityService extends BaseService<CityEntity , CityCreateDto, CityUpd
         mapper.update(updateDto, entity);
 
         // Update relationships
-        if (updateDto.getManager() != null && updateDto.getManager().getId() != null) {
-            entity.setManager(managerRepository.findById(updateDto.getManager().getId())
-                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + updateDto.getManager().getId())));
+        if (updateDto.getCoreUser() != null && updateDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(updateDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateDto.getCoreUser().getId())));
         }
 
         CityEntity updatedEntity = repository.save(entity);

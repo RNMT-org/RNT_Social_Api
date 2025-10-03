@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.keyword.constant.KeywordSensitivityLevelEnum;
+import ir.rayanovinmt.rnt_social_api.message.dto.MessageLoadDto;
 
 @Getter
 @Setter

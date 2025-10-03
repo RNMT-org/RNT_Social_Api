@@ -22,11 +22,13 @@
     </fields>
     <relationships>
         <relationship>
-            <name>user</name>
-            <relationshipType>MANY_TO_ONE</relationshipType>
-            <relatedEntityName>UserProfile</relatedEntityName>
-            <joinColumnName>user_id</joinColumnName>
+            <name>coreUser</name>
+            <relationshipType>ONE_TO_ONE</relationshipType>
+            <relatedEntityName>User</relatedEntityName>
+            <coreUser>true</coreUser>
+            <joinColumnName>core_user_id</joinColumnName>
             <required>true</required>
+            <unique>true</unique>
             <fetch>LAZY</fetch>
         </relationship>
         <relationship>

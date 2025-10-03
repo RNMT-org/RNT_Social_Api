@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.alert.constant.AlertLevelEnum;
 import ir.rayanovinmt.rnt_social_api.message.dto.MessageLoadDto;
 import ir.rayanovinmt.rnt_social_api.keyword.dto.KeywordLoadDto;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
 
 @Getter
 @Setter
@@ -28,5 +28,5 @@ public class AlertUpdateDto extends BaseDto {
 
     MessageLoadDto message;
     KeywordLoadDto keyword;
-    UserProfileLoadDto recipient;
+    UserLoadDto coreUser;
 }

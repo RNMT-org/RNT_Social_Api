@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileEntity;
+import ir.rayanovinmt.core.security.user.User;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +24,8 @@ public class CityEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_user_id")
-    UserProfileEntity manager;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "core_user_id", unique = true, nullable = false)
+    User coreUser;
 
 }
