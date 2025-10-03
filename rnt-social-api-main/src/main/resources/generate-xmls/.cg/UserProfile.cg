@@ -1,0 +1,106 @@
+---
+name: "UserProfile"
+tableName: null
+generate: true
+fields:
+- name: "name"
+  type: "STRING"
+  required: true
+  enums: []
+  searchable: true
+  unique: false
+  length: null
+  precision: null
+  scale: null
+  columnName: null
+  defaultValue: null
+  min: null
+  max: null
+  minLength: null
+  maxLength: 100
+  pattern: null
+  email: false
+  notBlank: false
+  notEmpty: false
+  positive: false
+  negative: false
+  positiveOrZero: false
+  negativeOrZero: false
+  future: false
+  past: false
+  indexed: false
+  indexName: null
+- name: "role"
+  type: "ENUM"
+  required: true
+  enums:
+  - name: "CITY_USER"
+    value: "City User"
+  - name: "CITY_MANAGER"
+    value: "City Manager"
+  - name: "COUNTRY_MANAGER"
+    value: "Country Manager"
+  searchable: false
+  unique: false
+  length: null
+  precision: null
+  scale: null
+  columnName: null
+  defaultValue: null
+  min: null
+  max: null
+  minLength: null
+  maxLength: null
+  pattern: null
+  email: false
+  notBlank: false
+  notEmpty: false
+  positive: false
+  negative: false
+  positiveOrZero: false
+  negativeOrZero: false
+  future: false
+  past: false
+  indexed: false
+  indexName: null
+relations:
+- type: "MANY_TO_ONE"
+  relatedEntityName: "City"
+  relatedEntityPackage: "ir.rayanovinmt.rnt_social_api.city"
+  mappedBy: null
+  foreignKey: null
+  required: false
+  name: "affiliatedCity"
+  document: false
+  coreUser: false
+  searchable: false
+  unique: false
+  cascade: "ALL"
+  orphanRemoval: false
+  fetch: "LAZY"
+  joinColumnName: "city_id"
+  referencedColumnName: null
+  joinTableName: null
+  inverseJoinColumnName: null
+  optional: true
+  relationshipName: "affiliatedCity"
+- type: "ONE_TO_ONE"
+  relatedEntityName: "User"
+  relatedEntityPackage: "ir.rayanovinmt.rnt_social_api.user"
+  mappedBy: null
+  foreignKey: null
+  required: true
+  name: "coreUser"
+  document: false
+  coreUser: true
+  searchable: false
+  unique: true
+  cascade: "ALL"
+  orphanRemoval: false
+  fetch: "LAZY"
+  joinColumnName: "core_user_id"
+  referencedColumnName: null
+  joinTableName: null
+  inverseJoinColumnName: null
+  optional: true
+  relationshipName: "coreUser"

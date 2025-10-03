@@ -1,0 +1,4 @@
+[ {
+  "name" : "CHANNEL_ADMIN",
+  "permissions" : [ "channel:root", "channel:create", "channel:read", "channel:search", "channel:update", "channel:delete" ]
+} ]

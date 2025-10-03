@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>Keyword</name>
+    <tableName>keywords</tableName>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>text</name>
+            <type>STRING</type>
+            <required>true</required>
+            <unique>true</unique>
+            <maxLength>100</maxLength>
+            <searchable>true</searchable>
+        </field>
+        <field>
+            <name>sensitivityLevel</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>LOW</name>
+                    <value>Low</value>
+                </enum>
+                <enum>
+                    <name>MEDIUM</name>
+                    <value>Medium</value>
+                </enum>
+                <enum>
+                    <name>HIGH</name>
+                    <value>High</value>
+                </enum>
+            </enums>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>messages</name>
+            <relationshipType>MANY_TO_MANY</relationshipType>
+            <relatedEntityName>Message</relatedEntityName>
+            <joinTableName>keyword_message</joinTableName>
+        </relationship>
+    </relationships>
+</entity>

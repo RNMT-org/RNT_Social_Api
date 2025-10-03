@@ -1,0 +1,19 @@
+[ {
+  "name" : "keywordmessage:root",
+  "showName" : "KeywordMessage Root"
+}, {
+  "name" : "keywordmessage:create",
+  "showName" : "KeywordMessage Create"
+}, {
+  "name" : "keywordmessage:update",
+  "showName" : "KeywordMessage Update"
+}, {
+  "name" : "keywordmessage:read",
+  "showName" : "KeywordMessage Read"
+}, {
+  "name" : "keywordmessage:search",
+  "showName" : "KeywordMessage Search"
+}, {
+  "name" : "keywordmessage:delete",
+  "showName" : "KeywordMessage Delete"
+} ]

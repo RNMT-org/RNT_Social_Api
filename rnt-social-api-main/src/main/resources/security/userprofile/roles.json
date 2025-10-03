@@ -1,0 +1,4 @@
+[ {
+  "name" : "USERPROFILE_ADMIN",
+  "permissions" : [ "userprofile:root", "userprofile:create", "userprofile:read", "userprofile:search", "userprofile:update", "userprofile:delete" ]
+} ]

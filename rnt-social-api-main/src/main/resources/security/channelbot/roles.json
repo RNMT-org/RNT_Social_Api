@@ -1,0 +1,4 @@
+[ {
+  "name" : "CHANNELBOT_ADMIN",
+  "permissions" : [ "channelbot:root", "channelbot:create", "channelbot:read", "channelbot:search", "channelbot:update", "channelbot:delete" ]
+} ]

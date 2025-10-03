@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>UserProfile</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+            <required>true</required>
+            <maxLength>100</maxLength>
+            <searchable>true</searchable>
+        </field>
+        <field>
+            <name>role</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>CITY_USER</name>
+                    <value>City User</value>
+                </enum>
+                <enum>
+                    <name>CITY_MANAGER</name>
+                    <value>City Manager</value>
+                </enum>
+                <enum>
+                    <name>COUNTRY_MANAGER</name>
+                    <value>Country Manager</value>
+                </enum>
+            </enums>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>affiliatedCity</name>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>City</relatedEntityName>
+            <joinColumnName>city_id</joinColumnName>
+            <required>false</required>
+            <fetch>LAZY</fetch>
+        </relationship>
+        <relationship>
+            <name>coreUser</name>
+            <relationshipType>ONE_TO_ONE</relationshipType>
+            <relatedEntityName>User</relatedEntityName>
+            <coreUser>true</coreUser>
+            <joinColumnName>core_user_id</joinColumnName>
+            <required>true</required>
+            <unique>true</unique>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

@@ -1,0 +1,4 @@
+[ {
+  "name" : "BOT_ADMIN",
+  "permissions" : [ "bot:root", "bot:create", "bot:read", "bot:search", "bot:update", "bot:delete" ]
+} ]

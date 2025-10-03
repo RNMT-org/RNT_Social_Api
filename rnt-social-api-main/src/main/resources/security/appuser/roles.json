@@ -1,0 +1,4 @@
+[ {
+  "name" : "APPUSER_ADMIN",
+  "permissions" : [ "appuser:root", "appuser:create", "appuser:read", "appuser:search", "appuser:update", "appuser:delete" ]
+} ]

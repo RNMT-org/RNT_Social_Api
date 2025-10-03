@@ -1,0 +1,35 @@
+package ir.rayanovinmt.rnt_social_api.userinchannel;
+
+import ir.rayanovinmt.core.entity.BaseMapper;
+import ir.rayanovinmt.core.entity.BaseRepository;
+import ir.rayanovinmt.core.entity.BaseService;
+import ir.rayanovinmt.rnt_social_api.userinchannel.dto.UserInChannelCreateDto;
+import ir.rayanovinmt.rnt_social_api.userinchannel.dto.UserInChannelLoadDto;
+import ir.rayanovinmt.rnt_social_api.userinchannel.dto.UserInChannelUpdateDto;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class UserInChannelService extends BaseService<UserInChannelEntity , UserInChannelCreateDto, UserInChannelUpdateDto, UserInChannelLoadDto> {
+    UserInChannelRepository repository;
+    UserInChannelMapper mapper = Mappers.getMapper(UserInChannelMapper.class);
+
+    @Override
+    protected BaseRepository<UserInChannelEntity> getRepository() {
+        return repository;
+    }
+
+    @Override
+    protected BaseMapper<UserInChannelEntity , UserInChannelCreateDto, UserInChannelUpdateDto, UserInChannelLoadDto> getMapper() {
+        return mapper;
+    }
+
+}

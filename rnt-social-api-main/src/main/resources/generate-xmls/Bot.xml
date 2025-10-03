@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>Bot</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>token</name>
+            <type>STRING</type>
+            <required>true</required>
+            <maxLength>255</maxLength>
+        </field>
+        <field>
+            <name>status</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>ACTIVE</name>
+                    <value>Active</value>
+                </enum>
+                <enum>
+                    <name>INACTIVE</name>
+                    <value>Inactive</value>
+                </enum>
+            </enums>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>platform</name>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>MessagingPlatform</relatedEntityName>
+            <joinColumnName>platform_id</joinColumnName>
+            <required>true</required>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

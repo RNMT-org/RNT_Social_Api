@@ -1,0 +1,19 @@
+[ {
+  "name" : "appuser:root",
+  "showName" : "AppUser Root"
+}, {
+  "name" : "appuser:create",
+  "showName" : "AppUser Create"
+}, {
+  "name" : "appuser:update",
+  "showName" : "AppUser Update"
+}, {
+  "name" : "appuser:read",
+  "showName" : "AppUser Read"
+}, {
+  "name" : "appuser:search",
+  "showName" : "AppUser Search"
+}, {
+  "name" : "appuser:delete",
+  "showName" : "AppUser Delete"
+} ]

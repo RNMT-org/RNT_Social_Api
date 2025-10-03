@@ -1,0 +1,19 @@
+[ {
+  "name" : "userprofile:root",
+  "showName" : "UserProfile Root"
+}, {
+  "name" : "userprofile:create",
+  "showName" : "UserProfile Create"
+}, {
+  "name" : "userprofile:update",
+  "showName" : "UserProfile Update"
+}, {
+  "name" : "userprofile:read",
+  "showName" : "UserProfile Read"
+}, {
+  "name" : "userprofile:search",
+  "showName" : "UserProfile Search"
+}, {
+  "name" : "userprofile:delete",
+  "showName" : "UserProfile Delete"
+} ]

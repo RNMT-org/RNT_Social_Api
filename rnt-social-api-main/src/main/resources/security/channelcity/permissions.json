@@ -1,0 +1,19 @@
+[ {
+  "name" : "channelcity:root",
+  "showName" : "ChannelCity Root"
+}, {
+  "name" : "channelcity:create",
+  "showName" : "ChannelCity Create"
+}, {
+  "name" : "channelcity:update",
+  "showName" : "ChannelCity Update"
+}, {
+  "name" : "channelcity:read",
+  "showName" : "ChannelCity Read"
+}, {
+  "name" : "channelcity:search",
+  "showName" : "ChannelCity Search"
+}, {
+  "name" : "channelcity:delete",
+  "showName" : "ChannelCity Delete"
+} ]

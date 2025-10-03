@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>Message</name>
+    <tableName>messages</tableName>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>text</name>
+            <type>STRING</type>
+            <required>true</required>
+            <maxLength>4096</maxLength>
+            <searchable>true</searchable>
+        </field>
+        <field>
+            <name>timeReceived</name>
+            <type>DATE</type>
+            <required>true</required>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>channel</name>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Channel</relatedEntityName>
+            <joinColumnName>channel_id</joinColumnName>
+            <required>true</required>
+            <fetch>LAZY</fetch>
+        </relationship>
+        <relationship>
+            <name>keywords</name>
+            <relationshipType>MANY_TO_MANY</relationshipType>
+            <relatedEntityName>Keyword</relatedEntityName>
+            <mappedBy>messages</mappedBy>
+        </relationship>
+    </relationships>
+</entity>

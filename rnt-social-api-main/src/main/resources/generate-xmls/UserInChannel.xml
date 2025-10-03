@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>UserInChannel</name>
+    <tableName>user_in_channel</tableName>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>role</name>
+            <type>ENUM</type>
+            <required>true</required>
+            <enums>
+                <enum>
+                    <name>ADMIN</name>
+                    <value>Admin</value>
+                </enum>
+                <enum>
+                    <name>MEMBER</name>
+                    <value>Member</value>
+                </enum>
+            </enums>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>user</name>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>UserProfile</relatedEntityName>
+            <joinColumnName>user_id</joinColumnName>
+            <required>true</required>
+            <fetch>LAZY</fetch>
+        </relationship>
+        <relationship>
+            <name>channel</name>
+            <relationshipType>MANY_TO_ONE</relationshipType>
+            <relatedEntityName>Channel</relatedEntityName>
+            <joinColumnName>channel_id</joinColumnName>
+            <required>true</required>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

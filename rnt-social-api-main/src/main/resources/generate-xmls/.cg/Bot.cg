@@ -1,0 +1,84 @@
+---
+name: "Bot"
+tableName: null
+generate: true
+fields:
+- name: "token"
+  type: "STRING"
+  required: true
+  enums: []
+  searchable: false
+  unique: false
+  length: null
+  precision: null
+  scale: null
+  columnName: null
+  defaultValue: null
+  min: null
+  max: null
+  minLength: null
+  maxLength: 255
+  pattern: null
+  email: false
+  notBlank: false
+  notEmpty: false
+  positive: false
+  negative: false
+  positiveOrZero: false
+  negativeOrZero: false
+  future: false
+  past: false
+  indexed: false
+  indexName: null
+- name: "status"
+  type: "ENUM"
+  required: true
+  enums:
+  - name: "ACTIVE"
+    value: "Active"
+  - name: "INACTIVE"
+    value: "Inactive"
+  searchable: false
+  unique: false
+  length: null
+  precision: null
+  scale: null
+  columnName: null
+  defaultValue: null
+  min: null
+  max: null
+  minLength: null
+  maxLength: null
+  pattern: null
+  email: false
+  notBlank: false
+  notEmpty: false
+  positive: false
+  negative: false
+  positiveOrZero: false
+  negativeOrZero: false
+  future: false
+  past: false
+  indexed: false
+  indexName: null
+relations:
+- type: "MANY_TO_ONE"
+  relatedEntityName: "MessagingPlatform"
+  relatedEntityPackage: "ir.rayanovinmt.rnt_social_api.messagingplatform"
+  mappedBy: null
+  foreignKey: null
+  required: true
+  name: "platform"
+  document: false
+  coreUser: false
+  searchable: false
+  unique: false
+  cascade: "ALL"
+  orphanRemoval: false
+  fetch: "LAZY"
+  joinColumnName: "platform_id"
+  referencedColumnName: null
+  joinTableName: null
+  inverseJoinColumnName: null
+  optional: true
+  relationshipName: "platform"
