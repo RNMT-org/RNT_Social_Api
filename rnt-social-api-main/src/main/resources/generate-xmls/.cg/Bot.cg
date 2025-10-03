@@ -1,6 +1,5 @@
 ---
 name: "Bot"
-tableName: null
 generate: true
 fields:
 - name: "token"

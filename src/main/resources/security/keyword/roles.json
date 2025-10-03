@@ -1,4 +1,0 @@
-[ {
-  "name" : "KEYWORD_ADMIN",
-  "permissions" : [ "keyword:root", "keyword:create", "keyword:read", "keyword:search", "keyword:update", "keyword:delete" ]
-} ]

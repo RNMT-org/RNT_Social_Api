@@ -6,8 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.userinchannel.constant.UserInChannelRoleEnum;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
-import ir.rayanovinmt.rnt_social_api.channel.dto.ChannelLoadDto;
 
 @Getter
 @Setter

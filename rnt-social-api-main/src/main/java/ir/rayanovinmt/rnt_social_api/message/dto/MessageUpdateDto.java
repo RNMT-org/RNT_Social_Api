@@ -8,8 +8,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import java.util.Date;
 import ir.rayanovinmt.rnt_social_api.channel.dto.ChannelLoadDto;
-import ir.rayanovinmt.rnt_social_api.keyword.dto.KeywordLoadDto;
-import java.util.List;
 
 @Getter
 @Setter
@@ -26,5 +24,5 @@ public class MessageUpdateDto extends BaseDto {
     @NotNull(message = "timeReceived is required")
     Date timeReceived;
 
-    List<KeywordLoadDto> keywords;
+    ChannelLoadDto channel;
 }

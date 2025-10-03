@@ -1,4 +1,0 @@
-[ {
-  "name" : "MESSAGINGPLATFORM_ADMIN",
-  "permissions" : [ "messagingplatform:root", "messagingplatform:create", "messagingplatform:read", "messagingplatform:search", "messagingplatform:update", "messagingplatform:delete" ]
-} ]

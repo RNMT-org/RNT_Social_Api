@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileRepository;
+import ir.rayanovinmt.rnt_social_api.channel.ChannelRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +24,8 @@ import java.util.List;
 public class UserInChannelService extends BaseService<UserInChannelEntity , UserInChannelCreateDto, UserInChannelUpdateDto, UserInChannelLoadDto> {
     UserInChannelRepository repository;
     UserInChannelMapper mapper = Mappers.getMapper(UserInChannelMapper.class);
+    UserProfileRepository userRepository;
+    ChannelRepository channelRepository;
 
     @Override
     protected BaseRepository<UserInChannelEntity> getRepository() {
@@ -32,4 +37,45 @@ public class UserInChannelService extends BaseService<UserInChannelEntity , User
         return mapper;
     }
 
+
+    @Override
+    @Transactional
+    public UserInChannelLoadDto create(UserInChannelCreateDto createDto) {
+        UserInChannelEntity entity = mapper.create(createDto);
+
+        // Set relationships
+        if (createDto.getUser() != null && createDto.getUser().getId() != null) {
+            entity.setUser(userRepository.findById(createDto.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + createDto.getUser().getId())));
+        }
+        if (createDto.getChannel() != null && createDto.getChannel().getId() != null) {
+            entity.setChannel(channelRepository.findById(createDto.getChannel().getId())
+                .orElseThrow(() -> new RuntimeException("Channel not found with id: " + createDto.getChannel().getId())));
+        }
+
+        UserInChannelEntity savedEntity = repository.save(entity);
+        return mapper.load(savedEntity);
+    }
+
+    @Override
+    @Transactional
+    public UserInChannelLoadDto update(Long id, UserInChannelUpdateDto updateDto) {
+        UserInChannelEntity entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("UserInChannel not found with id: " + id));
+
+        mapper.update(updateDto, entity);
+
+        // Update relationships
+        if (updateDto.getUser() != null && updateDto.getUser().getId() != null) {
+            entity.setUser(userRepository.findById(updateDto.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + updateDto.getUser().getId())));
+        }
+        if (updateDto.getChannel() != null && updateDto.getChannel().getId() != null) {
+            entity.setChannel(channelRepository.findById(updateDto.getChannel().getId())
+                .orElseThrow(() -> new RuntimeException("Channel not found with id: " + updateDto.getChannel().getId())));
+        }
+
+        UserInChannelEntity updatedEntity = repository.save(entity);
+        return mapper.load(updatedEntity);
+    }
 }

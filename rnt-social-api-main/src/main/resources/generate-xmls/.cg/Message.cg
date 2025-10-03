@@ -1,6 +1,5 @@
 ---
 name: "Message"
-tableName: "messages"
 generate: true
 fields:
 - name: "text"

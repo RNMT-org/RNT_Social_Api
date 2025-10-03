@@ -24,4 +24,5 @@ public class BotUpdateDto extends BaseDto {
     @NotNull(message = "status is required")
     BotStatusEnum status;
 
+    MessagingPlatformLoadDto platform;
 }

@@ -1,4 +1,0 @@
-[ {
-  "name" : "ALERT_ADMIN",
-  "permissions" : [ "alert:root", "alert:create", "alert:read", "alert:search", "alert:update", "alert:delete" ]
-} ]

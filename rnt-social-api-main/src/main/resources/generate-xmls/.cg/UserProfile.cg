@@ -1,6 +1,5 @@
 ---
 name: "UserProfile"
-tableName: null
 generate: true
 fields:
 - name: "name"

@@ -7,95 +7,76 @@ import ${basePackage}.${entityName?lower_case}.dto.*;
 <#assign documentIncluded = false>
 <#assign coreUserIncluded = false>
 <#list relationships as rel>
-    <#if rel.document>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.document.DocumentMapper")>
-            <#assign imports += ["ir.rayanovinmt.core.document.DocumentMapper"]>
-        </#if>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.document.DocumentDto")>
-            <#assign imports += ["ir.rayanovinmt.core.document.DocumentDto"]>
-        </#if>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.document.Document")>
-            <#assign imports += ["ir.rayanovinmt.core.document.Document"]>
-        </#if>
-    <#elseif rel.coreUser>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.UserMapper")>
-            <#assign imports += ["ir.rayanovinmt.core.security.user.UserMapper"]>
-        </#if>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.UserDto")>
-            <#assign imports += ["ir.rayanovinmt.core.security.user.UserDto"]>
-        </#if>
-        <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.User")>
-            <#assign imports += ["ir.rayanovinmt.core.security.user.User"]>
-        </#if>
-    <#else>
-        <#if !imports?seq_contains("${rel.relatedEntityPackage}.${rel.relatedEntityName}Mapper")>
-            <#assign imports += ["${rel.relatedEntityPackage}.${rel.relatedEntityName}Mapper"]>
-        </#if>
-        <#if !imports?seq_contains("${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto")>
-            <#assign imports += ["${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto"]>
-        </#if>
-        <#if !imports?seq_contains("${rel.relatedEntityPackage}.${rel.relatedEntityName}Entity")>
-            <#assign imports += ["${rel.relatedEntityPackage}.${rel.relatedEntityName}Entity"]>
+    <#if !rel.mappedBy?has_content>
+        <#if rel.document>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.document.DocumentMapper")>
+                <#assign imports += ["ir.rayanovinmt.core.document.DocumentMapper"]>
+            </#if>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.document.DocumentDto")>
+                <#assign imports += ["ir.rayanovinmt.core.document.DocumentDto"]>
+            </#if>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.document.Document")>
+                <#assign imports += ["ir.rayanovinmt.core.document.Document"]>
+            </#if>
+        <#elseif rel.coreUser>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.UserMapper")>
+                <#assign imports += ["ir.rayanovinmt.core.security.user.UserMapper"]>
+            </#if>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.UserLoadDto")>
+                <#assign imports += ["ir.rayanovinmt.core.security.user.UserLoadDto"]>
+            </#if>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.User")>
+                <#assign imports += ["ir.rayanovinmt.core.security.user.User"]>
+            </#if>
+        <#else>
+            <#if !imports?seq_contains("${rel.relatedEntityPackage}.${rel.relatedEntityName}Mapper")>
+                <#assign imports += ["${rel.relatedEntityPackage}.${rel.relatedEntityName}Mapper"]>
+            </#if>
+            <#if !imports?seq_contains("${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto")>
+                <#assign imports += ["${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto"]>
+            </#if>
+            <#if !imports?seq_contains("${rel.relatedEntityPackage}.${rel.relatedEntityName}Entity")>
+                <#assign imports += ["${rel.relatedEntityPackage}.${rel.relatedEntityName}Entity"]>
+            </#if>
         </#if>
     </#if>
+</#list>
+<#if imports?has_content>
     <#if !imports?seq_contains("org.mapstruct.factory.Mappers")>
         <#assign imports += ["org.mapstruct.factory.Mappers"]>
     </#if>
-</#list>
+</#if>
 <#list imports as imp>
 import ${imp};
 </#list>
 
-@Mapper(componentModel = "spring", uses = {})
+<#-- No mapper dependencies needed since LoadDto has no relationships -->
+@Mapper(componentModel = "spring")
 public interface ${entityName}Mapper extends BaseMapper<${entityName}Entity, ${entityName}CreateDto, ${entityName}UpdateDto, ${entityName}LoadDto> {
 
+    <#-- For load(): MapStruct auto-maps only matching fields (LoadDto has NO relationships) -->
     @Override
+    ${entityName}LoadDto load(${entityName}Entity entity);
+
+    <#-- For create(): ignore ALL relationships (handled in service) -->
+    @Override
+    <#if relationships?has_content>
     @Mappings({
         <#list relationships as rel>
-        @Mapping(target = "${rel.getRelationshipName()}", ignore = true)<#if rel_has_next>,</#if>
+        @Mapping(target = "${rel.relationshipName}", ignore = true)<#if rel_has_next>,</#if>
         </#list>
     })
+    </#if>
     ${entityName}Entity create(${entityName}CreateDto createDto);
 
+    <#-- For update(): ignore ALL relationships (handled in service) -->
     @Override
+    <#if relationships?has_content>
     @Mappings({
         <#list relationships as rel>
-        @Mapping(target = "${rel.getRelationshipName()}", ignore = true)<#if rel_has_next>,</#if>
+        @Mapping(target = "${rel.relationshipName}", ignore = true)<#if rel_has_next>,</#if>
         </#list>
     })
-    ${entityName}Entity entity(${entityName}LoadDto loadDto);
-
-    @Override
-    @Mappings({
-        <#list relationships as rel>
-        @Mapping(target = "${rel.getRelationshipName()}", ignore = true)<#if rel_has_next>,</#if>
-        </#list>
-    })
-    void update(${entityName}UpdateDto updateDto, @MappingTarget ${entityName}Entity target);
-
-<#-- Mapping for List relations -->
-<#list relationships as rel>
-<#if rel.mappedBy?has_content>
-
-    <#if rel.document>
-        <#if documentIncluded == false>
-    default DocumentDto DocumentToDocumentDto(Document document) {
-        return Mappers.getMapper(DocumentMapper.class).toDto(document);
-    }
-            <#assign documentIncluded = true>
-        </#if>
-    <#elseif rel.coreUser>
-        <#if coreUserIncluded == false>
-    default UserDto userToUserDto(User user) {
-        return Mappers.getMapper(UserMapper.class).toDto(user);
-    }
-            <#assign coreUserIncluded = true>
-        </#if>
-    <#else>
-    default ${rel.relatedEntityName}LoadDto ${rel.relatedEntityName?uncap_first}To${rel.relatedEntityName}Dto(${rel.relatedEntityName}Entity ${rel.relatedEntityName?uncap_first}) {
-        return Mappers.getMapper(${rel.relatedEntityName}Mapper.class).load(${rel.relatedEntityName?uncap_first});
-    }
     </#if>
-</#if>
-</#list>
+    void update(${entityName}UpdateDto updateDto, @MappingTarget ${entityName}Entity target);
 }

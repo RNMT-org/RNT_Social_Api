@@ -8,8 +8,11 @@ import ir.rayanovinmt.rnt_social_api.messagingplatform.dto.MessagingPlatformLoad
 import ir.rayanovinmt.rnt_social_api.messagingplatform.MessagingPlatformEntity;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface BotMapper extends BaseMapper<BotEntity, BotCreateDto, BotUpdateDto, BotLoadDto> {
+
+    @Override
+    BotLoadDto load(BotEntity entity);
 
     @Override
     @Mappings({
@@ -21,12 +24,5 @@ public interface BotMapper extends BaseMapper<BotEntity, BotCreateDto, BotUpdate
     @Mappings({
         @Mapping(target = "platform", ignore = true)
     })
-    BotEntity entity(BotLoadDto loadDto);
-
-    @Override
-    @Mappings({
-        @Mapping(target = "platform", ignore = true)
-    })
     void update(BotUpdateDto updateDto, @MappingTarget BotEntity target);
-
 }

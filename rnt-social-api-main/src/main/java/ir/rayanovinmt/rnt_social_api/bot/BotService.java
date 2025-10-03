@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import ir.rayanovinmt.rnt_social_api.messagingplatform.MessagingPlatformRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class BotService extends BaseService<BotEntity , BotCreateDto, BotUpdateDto, BotLoadDto> {
     BotRepository repository;
     BotMapper mapper = Mappers.getMapper(BotMapper.class);
+    MessagingPlatformRepository platformRepository;
 
     @Override
     protected BaseRepository<BotEntity> getRepository() {
@@ -32,4 +35,37 @@ public class BotService extends BaseService<BotEntity , BotCreateDto, BotUpdateD
         return mapper;
     }
 
+
+    @Override
+    @Transactional
+    public BotLoadDto create(BotCreateDto createDto) {
+        BotEntity entity = mapper.create(createDto);
+
+        // Set relationships
+        if (createDto.getPlatform() != null && createDto.getPlatform().getId() != null) {
+            entity.setPlatform(platformRepository.findById(createDto.getPlatform().getId())
+                .orElseThrow(() -> new RuntimeException("MessagingPlatform not found with id: " + createDto.getPlatform().getId())));
+        }
+
+        BotEntity savedEntity = repository.save(entity);
+        return mapper.load(savedEntity);
+    }
+
+    @Override
+    @Transactional
+    public BotLoadDto update(Long id, BotUpdateDto updateDto) {
+        BotEntity entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Bot not found with id: " + id));
+
+        mapper.update(updateDto, entity);
+
+        // Update relationships
+        if (updateDto.getPlatform() != null && updateDto.getPlatform().getId() != null) {
+            entity.setPlatform(platformRepository.findById(updateDto.getPlatform().getId())
+                .orElseThrow(() -> new RuntimeException("MessagingPlatform not found with id: " + updateDto.getPlatform().getId())));
+        }
+
+        BotEntity updatedEntity = repository.save(entity);
+        return mapper.load(updatedEntity);
+    }
 }

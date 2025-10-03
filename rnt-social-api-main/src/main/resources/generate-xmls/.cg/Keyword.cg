@@ -1,6 +1,5 @@
 ---
 name: "Keyword"
-tableName: "keywords"
 generate: true
 fields:
 - name: "text"

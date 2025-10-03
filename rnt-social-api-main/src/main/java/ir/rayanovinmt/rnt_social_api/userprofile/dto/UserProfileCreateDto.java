@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import ir.rayanovinmt.rnt_social_api.userprofile.constant.UserProfileRoleEnum;
 import ir.rayanovinmt.rnt_social_api.city.dto.CityLoadDto;
-import ir.rayanovinmt.core.security.user.UserDto;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
 
 @Getter
 @Setter
@@ -25,9 +25,6 @@ public class UserProfileCreateDto extends BaseDto {
     @NotNull(message = "role is required")
     UserProfileRoleEnum role;
 
-    Long affiliatedCityId;
-
-    @NotNull(message = "coreUserId is required")
-    Long coreUserId;
-
+    CityLoadDto affiliatedCity;
+    UserLoadDto coreUser;
 }

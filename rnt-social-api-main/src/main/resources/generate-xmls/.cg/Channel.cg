@@ -1,6 +1,5 @@
 ---
 name: "Channel"
-tableName: null
 generate: true
 fields:
 - name: "name"

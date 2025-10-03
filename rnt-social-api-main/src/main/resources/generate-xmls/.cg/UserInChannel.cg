@@ -1,6 +1,5 @@
 ---
 name: "UserInChannel"
-tableName: "user_in_channel"
 generate: true
 fields:
 - name: "role"

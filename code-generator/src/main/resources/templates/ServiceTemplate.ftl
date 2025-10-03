@@ -80,14 +80,14 @@ public class ${entityName}Service extends BaseService<${entityName}Entity , ${en
 <#list relationships as rel>
     <#if !rel.mappedBy?has_content && (rel.type.type == "ManyToOne" || rel.type.type == "OneToOne")>
         <#if rel.coreUser>
-        if (createDto.getCoreUserId() != null) {
-            entity.setCoreUser(userRepository.findById(createDto.getCoreUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getCoreUserId())));
+        if (createDto.getCoreUser() != null && createDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(createDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getCoreUser().getId())));
         }
         <#else>
-        if (createDto.get${rel.relationshipName?cap_first}Id() != null) {
-            entity.set${rel.relationshipName?cap_first}(${rel.relationshipName}Repository.findById(createDto.get${rel.relationshipName?cap_first}Id())
-                .orElseThrow(() -> new RuntimeException("${rel.relatedEntityName} not found with id: " + createDto.get${rel.relationshipName?cap_first}Id())));
+        if (createDto.get${rel.relationshipName?cap_first}() != null && createDto.get${rel.relationshipName?cap_first}().getId() != null) {
+            entity.set${rel.relationshipName?cap_first}(${rel.relationshipName}Repository.findById(createDto.get${rel.relationshipName?cap_first}().getId())
+                .orElseThrow(() -> new RuntimeException("${rel.relatedEntityName} not found with id: " + createDto.get${rel.relationshipName?cap_first}().getId())));
         }
         </#if>
     </#if>
@@ -109,14 +109,14 @@ public class ${entityName}Service extends BaseService<${entityName}Entity , ${en
 <#list relationships as rel>
     <#if !rel.mappedBy?has_content && (rel.type.type == "ManyToOne" || rel.type.type == "OneToOne")>
         <#if rel.coreUser>
-        if (updateDto.getCoreUserId() != null) {
-            entity.setCoreUser(userRepository.findById(updateDto.getCoreUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateDto.getCoreUserId())));
+        if (updateDto.getCoreUser() != null && updateDto.getCoreUser().getId() != null) {
+            entity.setCoreUser(userRepository.findById(updateDto.getCoreUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateDto.getCoreUser().getId())));
         }
         <#else>
-        if (updateDto.get${rel.relationshipName?cap_first}Id() != null) {
-            entity.set${rel.relationshipName?cap_first}(${rel.relationshipName}Repository.findById(updateDto.get${rel.relationshipName?cap_first}Id())
-                .orElseThrow(() -> new RuntimeException("${rel.relatedEntityName} not found with id: " + updateDto.get${rel.relationshipName?cap_first}Id())));
+        if (updateDto.get${rel.relationshipName?cap_first}() != null && updateDto.get${rel.relationshipName?cap_first}().getId() != null) {
+            entity.set${rel.relationshipName?cap_first}(${rel.relationshipName}Repository.findById(updateDto.get${rel.relationshipName?cap_first}().getId())
+                .orElseThrow(() -> new RuntimeException("${rel.relatedEntityName} not found with id: " + updateDto.get${rel.relationshipName?cap_first}().getId())));
         }
         </#if>
     </#if>

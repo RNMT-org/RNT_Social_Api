@@ -38,4 +38,5 @@ public class MessagingPlatformService extends BaseService<MessagingPlatformEntit
             "name"
         );
     }
+
 }

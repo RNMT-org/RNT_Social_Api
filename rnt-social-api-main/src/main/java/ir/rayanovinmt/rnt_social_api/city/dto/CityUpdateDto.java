@@ -20,4 +20,5 @@ public class CityUpdateDto extends BaseDto {
     @Size(max = 100)
     String name;
 
+    UserProfileLoadDto manager;
 }

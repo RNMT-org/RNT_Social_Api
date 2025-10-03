@@ -26,4 +26,7 @@ public class AlertCreateDto extends BaseDto {
     @NotNull(message = "level is required")
     AlertLevelEnum level;
 
+    MessageLoadDto message;
+    KeywordLoadDto keyword;
+    UserProfileLoadDto recipient;
 }

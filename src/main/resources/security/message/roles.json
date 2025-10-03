@@ -1,4 +1,0 @@
-[ {
-  "name" : "MESSAGE_ADMIN",
-  "permissions" : [ "message:root", "message:create", "message:read", "message:search", "message:update", "message:delete" ]
-} ]

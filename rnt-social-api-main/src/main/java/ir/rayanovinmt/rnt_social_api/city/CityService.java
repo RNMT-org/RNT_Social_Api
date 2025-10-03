@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class CityService extends BaseService<CityEntity , CityCreateDto, CityUpdateDto, CityLoadDto> {
     CityRepository repository;
     CityMapper mapper = Mappers.getMapper(CityMapper.class);
+    UserProfileRepository managerRepository;
 
     @Override
     protected BaseRepository<CityEntity> getRepository() {
@@ -37,5 +40,38 @@ public class CityService extends BaseService<CityEntity , CityCreateDto, CityUpd
         return Arrays.asList(
             "name"
         );
+    }
+
+    @Override
+    @Transactional
+    public CityLoadDto create(CityCreateDto createDto) {
+        CityEntity entity = mapper.create(createDto);
+
+        // Set relationships
+        if (createDto.getManager() != null && createDto.getManager().getId() != null) {
+            entity.setManager(managerRepository.findById(createDto.getManager().getId())
+                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + createDto.getManager().getId())));
+        }
+
+        CityEntity savedEntity = repository.save(entity);
+        return mapper.load(savedEntity);
+    }
+
+    @Override
+    @Transactional
+    public CityLoadDto update(Long id, CityUpdateDto updateDto) {
+        CityEntity entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("City not found with id: " + id));
+
+        mapper.update(updateDto, entity);
+
+        // Update relationships
+        if (updateDto.getManager() != null && updateDto.getManager().getId() != null) {
+            entity.setManager(managerRepository.findById(updateDto.getManager().getId())
+                .orElseThrow(() -> new RuntimeException("UserProfile not found with id: " + updateDto.getManager().getId())));
+        }
+
+        CityEntity updatedEntity = repository.save(entity);
+        return mapper.load(updatedEntity);
     }
 }

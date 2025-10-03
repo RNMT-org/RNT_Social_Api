@@ -8,8 +8,11 @@ import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
 import ir.rayanovinmt.rnt_social_api.userprofile.UserProfileEntity;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface CityMapper extends BaseMapper<CityEntity, CityCreateDto, CityUpdateDto, CityLoadDto> {
+
+    @Override
+    CityLoadDto load(CityEntity entity);
 
     @Override
     @Mappings({
@@ -21,12 +24,5 @@ public interface CityMapper extends BaseMapper<CityEntity, CityCreateDto, CityUp
     @Mappings({
         @Mapping(target = "manager", ignore = true)
     })
-    CityEntity entity(CityLoadDto loadDto);
-
-    @Override
-    @Mappings({
-        @Mapping(target = "manager", ignore = true)
-    })
     void update(CityUpdateDto updateDto, @MappingTarget CityEntity target);
-
 }

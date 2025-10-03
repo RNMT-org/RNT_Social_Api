@@ -1,6 +1,5 @@
 ---
 name: "Alert"
-tableName: "alerts"
 generate: true
 fields:
 - name: "details"

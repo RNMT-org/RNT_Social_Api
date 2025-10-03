@@ -8,6 +8,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserDto toDto(User user);
+    UserLoadDto toLoadDto(User user);
     UserResponseDto toResponseDto(User user, String token);
 }
 

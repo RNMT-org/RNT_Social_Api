@@ -1,4 +1,0 @@
-[ {
-  "name" : "USERINCHANNEL_ADMIN",
-  "permissions" : [ "userinchannel:root", "userinchannel:create", "userinchannel:read", "userinchannel:search", "userinchannel:update", "userinchannel:delete" ]
-} ]

@@ -1,4 +1,0 @@
-[ {
-  "name" : "CITY_ADMIN",
-  "permissions" : [ "city:root", "city:create", "city:read", "city:search", "city:update", "city:delete" ]
-} ]

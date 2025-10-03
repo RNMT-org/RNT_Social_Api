@@ -6,9 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import java.util.Date;
-import ir.rayanovinmt.rnt_social_api.channel.dto.ChannelLoadDto;
-import ir.rayanovinmt.rnt_social_api.keyword.dto.KeywordLoadDto;
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,5 +19,4 @@ public class MessageLoadDto extends BaseDto {
 
     Date timeReceived;
 
-    List<KeywordLoadDto> keywords;
 }

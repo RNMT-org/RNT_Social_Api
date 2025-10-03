@@ -1,6 +1,5 @@
 ---
 name: "MessagingPlatform"
-tableName: null
 generate: true
 fields:
 - name: "name"

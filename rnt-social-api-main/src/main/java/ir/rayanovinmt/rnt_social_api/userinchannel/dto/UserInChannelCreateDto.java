@@ -21,4 +21,6 @@ public class UserInChannelCreateDto extends BaseDto {
     @NotNull(message = "role is required")
     UserInChannelRoleEnum role;
 
+    UserProfileLoadDto user;
+    ChannelLoadDto channel;
 }

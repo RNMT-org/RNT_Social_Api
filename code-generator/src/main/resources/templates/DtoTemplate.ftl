@@ -22,22 +22,26 @@ import lombok.experimental.SuperBuilder;
         </#if>
     </#if>
 </#list>
+<#-- Import LoadDto for relationships in Create/Update DTOs -->
+<#if (dtoType == "Create" || dtoType == "Update")>
 <#list relationships as rel>
-    <#if rel.document>
-        <#assign imports += ["ir.rayanovinmt.core.document.DocumentDto"]>
-    <#elseif rel.coreUser>
-        <#assign imports += ["ir.rayanovinmt.core.security.user.UserDto"]>
-    <#else>
-        <#if !imports?seq_contains("${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto")>
-            <#assign imports += ["${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto"]>
-        </#if>
-    </#if>
-    <#if rel.type.type == "OneToMany" || rel.type.type == "ManyToMany">
-        <#if !imports?seq_contains("java.util.List")>
-            <#assign imports += ["java.util.List"]>
+    <#if !rel.mappedBy?has_content>
+        <#if rel.document>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.document.DocumentDto")>
+                <#assign imports += ["ir.rayanovinmt.core.document.DocumentDto"]>
+            </#if>
+        <#elseif rel.coreUser>
+            <#if !imports?seq_contains("ir.rayanovinmt.core.security.user.UserLoadDto")>
+                <#assign imports += ["ir.rayanovinmt.core.security.user.UserLoadDto"]>
+            </#if>
+        <#else>
+            <#if !imports?seq_contains("${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto")>
+                <#assign imports += ["${rel.relatedEntityPackage}.dto.${rel.relatedEntityName}LoadDto"]>
+            </#if>
         </#if>
     </#if>
 </#list>
+</#if>
 <#list imports as imp>
 import ${imp};
 </#list>
@@ -105,46 +109,21 @@ public class ${entityName}${dtoType}Dto extends BaseDto {
     </#if>
 
 </#list>
+<#-- LoadDto: NO relationships to prevent circular dependencies -->
+<#-- Create/Update DTOs: Include LoadDto for relationships (only owning side) -->
+<#if (dtoType == "Create" || dtoType == "Update")>
 <#list relationships as rel>
-<#-- For LoadDto: include full related entities if mappedBy is present -->
-<#if dtoType == "Load" && rel.mappedBy?has_content>
-    <#if rel.type.type == "OneToOne" || rel.type.type == "ManyToOne">
-        <#if rel.document>
+    <#if !rel.mappedBy?has_content>
+        <#if rel.type.type == "ManyToOne" || rel.type.type == "OneToOne">
+            <#if rel.document>
     DocumentDto ${rel.relationshipName};
-        <#elseif rel.coreUser>
-    UserDto ${rel.relationshipName};
-        <#else>
+            <#elseif rel.coreUser>
+    UserLoadDto ${rel.relationshipName};
+            <#else>
     ${rel.relatedEntityName}LoadDto ${rel.relationshipName};
+            </#if>
         </#if>
     </#if>
-    <#if rel.type.type == "OneToMany" || rel.type.type == "ManyToMany">
-        <#if rel.document>
-    List<DocumentDto> ${rel.relationshipName};
-        <#elseif rel.coreUser>
-    List<UserDto> ${rel.relationshipName};
-        <#else>
-    List<${rel.relatedEntityName}LoadDto> ${rel.relationshipName};
-        </#if>
-    </#if>
-</#if>
-<#-- For Create/Update DTOs: include ID fields for required relationships -->
-<#if (dtoType == "Create" || dtoType == "Update") && !rel.mappedBy?has_content>
-    <#if rel.type.type == "ManyToOne" || rel.type.type == "OneToOne">
-        <#if rel.required && dtoType == "Create">
-    @NotNull(message = "${rel.relationshipName}Id is required")
-        </#if>
-        <#if rel.coreUser>
-    Long coreUserId;
-        <#else>
-    Long ${rel.relationshipName}Id;
-        </#if>
-    </#if>
-    <#if rel.type.type == "ManyToMany">
-        <#if rel.required && dtoType == "Create">
-    @NotEmpty(message = "${rel.relationshipName}Ids cannot be empty")
-        </#if>
-    List<Long> ${rel.relationshipName}Ids;
-    </#if>
-</#if>
 </#list>
+</#if>
 }

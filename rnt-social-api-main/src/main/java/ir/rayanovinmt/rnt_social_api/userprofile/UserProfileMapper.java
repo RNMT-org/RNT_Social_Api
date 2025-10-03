@@ -6,13 +6,16 @@ import ir.rayanovinmt.rnt_social_api.userprofile.dto.*;
 import ir.rayanovinmt.rnt_social_api.city.CityMapper;
 import ir.rayanovinmt.rnt_social_api.city.dto.CityLoadDto;
 import ir.rayanovinmt.rnt_social_api.city.CityEntity;
-import org.mapstruct.factory.Mappers;
 import ir.rayanovinmt.core.security.user.UserMapper;
-import ir.rayanovinmt.core.security.user.UserDto;
+import ir.rayanovinmt.core.security.user.UserLoadDto;
 import ir.rayanovinmt.core.security.user.User;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface UserProfileMapper extends BaseMapper<UserProfileEntity, UserProfileCreateDto, UserProfileUpdateDto, UserProfileLoadDto> {
+
+    @Override
+    UserProfileLoadDto load(UserProfileEntity entity);
 
     @Override
     @Mappings({
@@ -26,13 +29,5 @@ public interface UserProfileMapper extends BaseMapper<UserProfileEntity, UserPro
         @Mapping(target = "affiliatedCity", ignore = true),
         @Mapping(target = "coreUser", ignore = true)
     })
-    UserProfileEntity entity(UserProfileLoadDto loadDto);
-
-    @Override
-    @Mappings({
-        @Mapping(target = "affiliatedCity", ignore = true),
-        @Mapping(target = "coreUser", ignore = true)
-    })
     void update(UserProfileUpdateDto updateDto, @MappingTarget UserProfileEntity target);
-
 }

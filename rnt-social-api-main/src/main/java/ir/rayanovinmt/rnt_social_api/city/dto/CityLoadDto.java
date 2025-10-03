@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import ir.rayanovinmt.rnt_social_api.userprofile.dto.UserProfileLoadDto;
 
 @Getter
 @Setter

@@ -20,4 +20,5 @@ public class CityCreateDto extends BaseDto {
     @Size(max = 100)
     String name;
 
+    UserProfileLoadDto manager;
 }
