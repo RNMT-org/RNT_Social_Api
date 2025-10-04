@@ -1,0 +1,4 @@
+[ {
+  "name" : "KEYWORDMESSAGE_ADMIN",
+  "permissions" : [ "keywordmessage:root", "keywordmessage:create", "keywordmessage:read", "keywordmessage:search", "keywordmessage:update", "keywordmessage:delete" ]
+} ]

@@ -1,0 +1,99 @@
+
+ ▐▛███▜▌   Claude Code v2.0.5
+▝▜█████▛▘  Sonnet 4.5 · Claude Pro
+  ▘▘ ▝▝    /home/ali/Projects/RNT_Social_Api
+═══════════════════════════════════════════════════════════════════════════════════ Conversation compacted · ctrl+o for history ═══════════════════════════════════════════════════════════════════════════════════
+  ⎿  Read rnt-social-api-main/src/main/resources/generate-xmls/.cg/Category.cg (141 lines)
+  ⎿  Read rnt-social-api-main/src/main/resources/generate-xmls/.cg/Post.cg (69 lines)
+  ⎿  Read rnt-social-api-main/src/main/resources/generate-xmls/.cg/Person.cg (33 lines)
+  ⎿  Read rnt-social-api-main/src/main/resources/generate-xmls/.cg/Tag.cg (33 lines)
+  ⎿  Read rnt-social-api-main/pom.xml (341 lines)
+  ⎿  Todo list read (6 items)
+
+● I'll continue by fixing the template package imports and regenerating the code.
+
+● Bash(find /home/ali/Projects/RNT_Social_Api/code-generator/src/main/resources/templates -name "*.ftl" -exec grep -l "rnt_social_api\.core" {} \;)
+  ⎿  (No content)
+
+● Bash(find /home/ali/Projects/RNT_Social_Api/code-generator/src/main/resources/templates -name "*.ftl" -exec grep -l "rnt_social_api" {} \;)
+  ⎿  (No content)
+
+● Search(pattern: "**/*.ftl", path: "code-generator/src/main/resources/templates")
+  ⎿  Found 9 files (ctrl+o to expand)
+
+● Read(code-generator/src/main/resources/templates/EntityTemplate.ftl)
+  ⎿  Read 148 lines (ctrl+o to expand)
+
+● Read(code-generator/src/main/resources/templates/ControllerTemplate.ftl)
+  ⎿  Read 68 lines (ctrl+o to expand)
+
+● Read(code-generator/src/main/resources/templates/ServiceTemplate.ftl)
+  ⎿  Read 45 lines (ctrl+o to expand)
+
+● I can see the templates are using ${basePackage}.core.* for imports. The issue is that ${basePackage} is being set to ir.rayanovinmt.rnt_social_api when it should be using ir.rayanovinmt for core imports.
+  Let me check how basePackage is being set:
+
+● Read(code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java)
+  ⎿  Read 80 lines (ctrl+o to expand)
+
+● Read(code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java)
+  ⎿  Read 50 lines (ctrl+o to expand)
+
+● Read(rnt-core/src/main/java/ir/rayanovinmt/core/generator/model/BasePackage.java)
+  ⎿  Read 22 lines (ctrl+o to expand)
+
+● Found it! The issue is in BasePackage.getDefaultBasePackage() - it returns ir.rayanovinmt.rnt_social_api and templates use ${basePackage}.core.* which creates ir.rayanovinmt.rnt_social_api.core.*.
+
+  The templates need to use a separate variable for core package imports. Let me fix this properly:
+
+● Update(rnt-core/src/main/java/ir/rayanovinmt/core/generator/model/BasePackage.java)
+  ⎿  Updated rnt-core/src/main/java/ir/rayanovinmt/core/generator/model/BasePackage.java with 7 additions
+        9    public class BasePackage {
+       10    
+       11        String basePackage;
+       12 +      String corePackage;
+       13    
+       14        public BasePackage(String basePackage) {
+       15            this.basePackage = basePackage;
+       16 +          this.corePackage = "ir.rayanovinmt.core";
+       17        }
+       18    
+       19        public static String getDefaultBasePackage() {
+       20            // Default base package for generated code
+       21            return "ir.rayanovinmt.rnt_social_api";
+       22        }
+       23 +  
+       24 +      public static String getDefaultCorePackage() {
+       25 +          // Core package location (rnt-core module)
+       26 +          return "ir.rayanovinmt.core";
+       27 +      }
+       28    }
+
+● Now I need to update the templates to use corePackage instead of basePackage for core imports. Let me also check how the templates are being called to see if corePackage is passed:
+
+● Search(pattern: "dataModel\.put", path: "code-generator/src/main/java/ir/rayanovinmt/codegen", output_mode: "content")
+  ⎿  Found 0 lines 
+
+● Read(code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java)
+  ⎿  Read 80 lines (ctrl+o to expand)
+
+● Search(pattern: "Map.*data.*new.*HashMap", path: "code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java", output_mode: "content")
+  ⎿  Found 21 lines (ctrl+o to expand)
+
+● Perfect! Now I can see where the data is prepared. I need to add corePackage to the template data:
+
+● Update(code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java)
+  ⎿  Updated code-generator/src/main/java/ir/rayanovinmt/codegen/CgToCodeGenerator.java with 1 addition
+       180        private Map<String, Object> prepareTemplateData(EntityModel entity) {
+       181            Map<String, Object> data = new HashMap<>();
+       182            data.put("basePackage", basePackage);
+       183 +          data.put("corePackage", BasePackage.getDefaultCorePackage());
+       184            data.put("tableName", StringUtils.toSnakeCase(entity.getName()));
+       185            data.put("entityName", entity.getName());
+       186            data.put("fields", entity.getFields());
+  ⎿  Session limit reached ∙ resets 1:30am
+     /upgrade to increase your usage limit.
+
+
+
+

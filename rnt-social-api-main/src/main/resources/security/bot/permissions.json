@@ -1,0 +1,19 @@
+[ {
+  "name" : "bot:root",
+  "showName" : "Bot Root"
+}, {
+  "name" : "bot:create",
+  "showName" : "Bot Create"
+}, {
+  "name" : "bot:update",
+  "showName" : "Bot Update"
+}, {
+  "name" : "bot:read",
+  "showName" : "Bot Read"
+}, {
+  "name" : "bot:search",
+  "showName" : "Bot Search"
+}, {
+  "name" : "bot:delete",
+  "showName" : "Bot Delete"
+} ]

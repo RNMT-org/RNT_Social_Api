@@ -1,0 +1,4 @@
+[ {
+  "name" : "CHANNELCITY_ADMIN",
+  "permissions" : [ "channelcity:root", "channelcity:create", "channelcity:read", "channelcity:search", "channelcity:update", "channelcity:delete" ]
+} ]

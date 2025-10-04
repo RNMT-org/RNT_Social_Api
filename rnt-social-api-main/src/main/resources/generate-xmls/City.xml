@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>City</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+            <required>true</required>
+            <unique>true</unique>
+            <maxLength>100</maxLength>
+            <searchable>true</searchable>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <name>coreUser</name>
+            <relationshipType>ONE_TO_ONE</relationshipType>
+            <relatedEntityName>User</relatedEntityName>
+            <coreUser>true</coreUser>
+            <joinColumnName>core_user_id</joinColumnName>
+            <required>true</required>
+            <unique>true</unique>
+            <fetch>LAZY</fetch>
+        </relationship>
+    </relationships>
+</entity>

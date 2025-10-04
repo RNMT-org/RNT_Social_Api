@@ -25,15 +25,15 @@ jobs:
       - name: 🔍 Find the executable JAR
         id: find-jar
         run: |
-          # Find the Spring Boot repackaged JAR (usually the largest one)
-          JAR_FILE=$(find ./target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" -exec ls -S {} + | head -n 1)
+          # Find the Spring Boot repackaged JAR in the main application module
+          JAR_FILE=$(find ./rnt-social-api-main/target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" -exec ls -S {} + | head -n 1)
           echo "JAR_FILE_PATH=$JAR_FILE" >> $GITHUB_ENV
           echo "🔍 Found executable JAR: $JAR_FILE"
 
       - name: 🔍 Verify JAR has manifest & Spring boot executable
         run: |
-          # Find the main JAR (excluding sources/javadoc/original)
-          JAR_FILE=$(find ./target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" | head -n 1)
+          # Find the main JAR in the main application module (excluding sources/javadoc/original)
+          JAR_FILE=$(find ./rnt-social-api-main/target -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" ! -name "*.original" | head -n 1)
           
           if [ -z "$JAR_FILE" ]; then
             echo "❌ Error: No JAR file found!"

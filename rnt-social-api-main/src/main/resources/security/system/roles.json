@@ -1,0 +1,38 @@
+[
+  {
+    "name": "SUPER_ADMIN",
+    "permissions": [
+      "user:read",
+      "user:assign_roles",
+      "role:root",
+      "role:create",
+      "role:read",
+      "role:search",
+      "role:update",
+      "role:delete",
+      "permission:root",
+      "permission:create",
+      "permission:read",
+      "permission:search",
+      "permission:update",
+      "permission:delete"
+    ]
+  },
+  {
+    "name": "USER_MANAGER",
+    "permissions": [
+      "user:read",
+      "user:assign_roles"
+    ]
+  },
+  {
+    "name": "ROLE_MANAGER",
+    "permissions": [
+      "role:create",
+      "role:read",
+      "role:search",
+      "role:update",
+      "role:delete"
+    ]
+  }
+]

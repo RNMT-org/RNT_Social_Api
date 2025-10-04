@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <name>MessagingPlatform</name>
+    <generate>true</generate>
+    <fields>
+        <field>
+            <name>name</name>
+            <type>STRING</type>
+            <required>true</required>
+            <unique>true</unique>
+            <maxLength>100</maxLength>
+            <searchable>true</searchable>
+        </field>
+        <field>
+            <name>apiUrl</name>
+            <type>STRING</type>
+            <required>true</required>
+            <maxLength>255</maxLength>
+        </field>
+        <field>
+            <name>apiKey</name>
+            <type>STRING</type>
+            <required>false</required>
+            <maxLength>255</maxLength>
+        </field>
+        <field>
+            <name>apiSecret</name>
+            <type>STRING</type>
+            <required>false</required>
+            <maxLength>255</maxLength>
+        </field>
+    </fields>
+</entity>

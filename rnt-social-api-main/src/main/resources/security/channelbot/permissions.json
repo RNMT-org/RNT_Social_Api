@@ -1,0 +1,19 @@
+[ {
+  "name" : "channelbot:root",
+  "showName" : "ChannelBot Root"
+}, {
+  "name" : "channelbot:create",
+  "showName" : "ChannelBot Create"
+}, {
+  "name" : "channelbot:update",
+  "showName" : "ChannelBot Update"
+}, {
+  "name" : "channelbot:read",
+  "showName" : "ChannelBot Read"
+}, {
+  "name" : "channelbot:search",
+  "showName" : "ChannelBot Search"
+}, {
+  "name" : "channelbot:delete",
+  "showName" : "ChannelBot Delete"
+} ]
